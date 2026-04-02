@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const { data, pending, error } = await useFetch('/api/leagues');
+import type { Fixture } from '~/models/fixture';
+
+const { data, pending, error } = await useFetch<Fixture[]>('/api/fixtures');
 </script>
 
 <template>
   <main>
-    <h1 class="text-3xl">
-      Matchs du jour
+    <h1 class="m-6 text-center text-5xl font-bold">
+      Matchs du jour :
     </h1>
 
     <p
@@ -22,13 +24,19 @@ const { data, pending, error } = await useFetch('/api/leagues');
       Une erreur est survenue lors de l'appel API.
     </p>
 
-    <p
-      v-for="res in data?.response"
+    <ul
       v-else
-      :key="res.league.id"
-      class="text-lg"
+      class="mt-8 flex w-full flex-col items-center justify-center"
     >
-      {{ res.league.name }}
-    </p>
+      <li
+        v-for="res in data"
+        :key="res.fixture.id"
+        class="my-4 w-3/4 p-4"
+      >
+        <MatchCard
+          :fixture="res"
+        />
+      </li>
+    </ul>
   </main>
 </template>
