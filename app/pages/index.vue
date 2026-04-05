@@ -6,7 +6,7 @@ const { data, pending, error } = await useFetch<Fixture[]>('/api/fixtures');
 
 <template>
   <main>
-    <h1 class="m-6 text-center text-5xl font-bold">
+    <h1 class="m-3  text-3xl font-bold md:m-6 md:text-5xl">
       Matchs du jour :
     </h1>
 
@@ -31,7 +31,7 @@ const { data, pending, error } = await useFetch<Fixture[]>('/api/fixtures');
       <li
         v-for="res in data"
         :key="res.fixture.id"
-        class="my-4 w-3/4 p-4"
+        class="my-2 w-full p-1 md:my-4 md:w-3/4 md:p-4"
       >
         <MatchCard
           :fixture="res"
