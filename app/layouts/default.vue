@@ -10,7 +10,7 @@ function toggleSidebar() {
 </script>
 
 <template>
-  <div class="flex h-screen flex-col overflow-hidden bg-slate-500">
+  <div class="flex h-screen flex-col overflow-hidden bg-background-app">
     <AppHeader
       @toggle-sidebar="toggleSidebar()"
     />

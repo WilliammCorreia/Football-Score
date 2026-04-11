@@ -11,20 +11,19 @@ const IsDesktop = computed(() => useIsDesktopValue.value);
 </script>
 
 <template>
-  <header class="flex items-center justify-between bg-gray-100 p-4 shadow-md">
+  <header class="flex items-center justify-between bg-primary-500 p-4 shadow-md">
     <button
       v-if="!IsDesktop"
-      class="rounded-md border-gray-500 p-2 active:bg-gray-100 "
+      class="rounded-md p-2 active:bg-primary-hover"
       @click="clicked"
     >
       <Icon
         name="stash:burger-classic"
         size="2rem"
         mode="svg"
-        class="hover:text-gray-500"
       />
     </button>
-    <h1 class="text-2xl font-bold md:text-4xl">
+    <h1 class="text-2xl font-bold text-text-main md:text-4xl">
       Football Score
     </h1>
     <div>

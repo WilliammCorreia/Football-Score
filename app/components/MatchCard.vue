@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex min-h-32 w-full items-center justify-between gap-2 rounded-xl border-2 border-blue-500 bg-slate-100 py-2 md:gap-8 md:border-4 md:p-8">
+  <div class="flex min-h-32 w-full items-center justify-between gap-2 rounded-xl border-2 border-border bg-surface py-2 md:gap-8 md:border-4 md:p-8">
     <TeamLogo
       :url="fixture.teams.home.logo"
       :name="fixture.teams.home.name"

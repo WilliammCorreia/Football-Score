@@ -6,20 +6,20 @@ const { data, pending, error } = await useFetch<Fixture[]>('/api/fixtures');
 
 <template>
   <main>
-    <h1 class="m-3  text-3xl font-bold md:m-6 md:text-5xl">
+    <h1 class="m-3 text-3xl font-bold text-text-muted md:m-6 md:text-5xl">
       Matchs du jour :
     </h1>
 
     <p
       v-if="pending"
-      class="text-lg text-gray-500"
+      class="text-lg text-text-muted"
     >
       Chargement...
     </p>
 
     <p
       v-else-if="error"
-      class="text-lg text-red-500"
+      class="text-lg text-danger"
     >
       Une erreur est survenue lors de l'appel API.
     </p>
