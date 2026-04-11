@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxt/icon'],
   devtools: { enabled: true },
+  css: ['@/assets/css/tailwind.css'],
   runtimeConfig: {
     apiSportsKey: process.env.API_FOOTBALL_KEY || 'XxXxXxXxXxXxXxXxXxXxXxXx',
   },
