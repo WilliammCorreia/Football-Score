@@ -1,19 +1,30 @@
-import type { Player } from "./player";
+import type { Player } from './player';
 
 export interface Team {
-    id: number, 
-    name: string, 
-    country: string,
-    founded: number,
-    code: string,
-    logo: string,
-    player: Player[]
+  id: number;
+  name: string;
+  country: string;
+  founded: number;
+  code: string;
+  logo: string;
+  player: Player[];
 }
 
-interface TeamVenue {
-    team: Team
+export interface Venue {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  capacity: number;
+  surface: string;
+  image: string;
+}
+
+export interface TeamVenue {
+  team: Team;
+  venue: Venue;
 }
 
 export interface TeamResponse {
-    response: Array<TeamVenue>;
+  response: Array<TeamVenue>;
 }

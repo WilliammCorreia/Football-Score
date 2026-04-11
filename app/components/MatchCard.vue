@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import type { Fixture } from '@/models/fixture';
-import { useFavouritesStore } from '~/store/favourites';
-
-const favourites = useFavouritesStore();
-
 
 defineProps<{
   fixture: Fixture;
@@ -19,10 +15,10 @@ defineProps<{
     <main class="flex flex-1 flex-col items-center justify-between gap-1">
       <div class="flex w-full justify-between gap-8">
         <NuxtLink :to="{ path: '/team', query: { id: fixture.teams.home.id } }"><h3 class="text-sm font-bold md:text-xl">
-          {{ fixture.teams.home.name }} 
+          {{ fixture.teams.home.name }}
         </h3></NuxtLink><FavouriteButton :team="fixture.teams.home" />
         <FavouriteButton :team="fixture.teams.away" /><NuxtLink :to="{ path: '/team', query: { id: fixture.teams.away.id } }"><h2 class="text-right text-sm font-bold md:text-xl">
-          {{ fixture.teams.away.name }} 
+          {{ fixture.teams.away.name }}
         </h2></NuxtLink>
       </div>
       <h2
