@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import type { Fixture } from '~/models/fixture';
+import type { Fixture } from '~/models/fixture'
 import type { Team } from '~/models/team'
 export const useFavouritesStore = defineStore('favourites', () => {
 const teams = ref<Team[]>([]) 

@@ -25,23 +25,23 @@ onMounted(async () => {
       </h1>
 
       <p
-        v-if="errors"
-        class="text-lg text-danger"
+          v-if="errors"
+          class="text-lg text-danger"
       >
         Une erreur est survenue lors de l'appel API.
       </p>
 
       <ul
-        v-else
-        class="mt-8 flex w-full flex-col items-center justify-center"
+          v-else
+          class="mt-8 flex w-full flex-col items-center justify-center"
       >
         <li
-          v-for="res in fixtures"
-          :key="res.fixture.id"
-          class="my-2 w-full p-1 md:my-4 md:w-3/4 md:p-4"
+            v-for="res in fixtures"
+            :key="res.fixture.id"
+            class="my-2 w-full p-1 md:my-4 md:w-3/4 md:p-4"
         >
           <MatchCard
-            :fixture="res"
+              :fixture="res"
           />
         </li>
       </ul>

@@ -1,29 +1,38 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import type { Fixture } from '~/models/fixture';
-import { useFavouritesStore } from '~/store/favourites';
+import { ref } from 'vue'
+import type { Fixture } from '~/models/fixture'
+import { useUserStore } from '~/store/user.store'
 
-const favourites = useFavouritesStore();
-const fixtures = ref<{team: number, matches: Fixture[]}[]>([]);
-const isLoading = ref(true);
-const errors = ref<Error | null>(null);
+const user = useUserStore()
 
-  console.log("Lancement du onMounted", favourites.listIds())
-  const { data, pending, error } = await useFetch<{team: number, matches: Fixture[]}[]>('/api/favourites', { method: 'POST', body : 
-    {teams: favourites.listIds()}
-  });
-  console.log(data.value)
-  if (data.value) {
-    fixtures.value = data.value;
+const fixtures = ref<{ team: number; matches: Fixture[] }[]>([])
+const isLoading = ref(true)
+const errors = ref<Error | null>(null)
+
+// 🔥 Appel API avec les IDs favoris via UserStore
+console.log("Lancement du fetch", user.getFavouriteTeamsIds())
+
+const { data, pending, error } = await useFetch('/api/favourites', {
+  method: 'POST',
+  body: {
+    teams: user.getFavouriteTeamsIds()   // ← ICI tu consommes la fonction
   }
-  isLoading.value = pending.value;
-  errors.value = error.value ?? null;
+})
 
+console.log(data.value)
+
+if (data.value) {
+  fixtures.value = data.value
+}
+
+isLoading.value = pending.value
+errors.value = error.value ?? null
 </script>
 
 <template>
   <main>
     <AppLoader v-if="isLoading" />
+
     <div v-else>
       <h1 class="m-3 text-3xl font-bold text-text-muted md:m-6 md:text-5xl">
         Dashboard
@@ -38,20 +47,22 @@ const errors = ref<Error | null>(null);
       </div>
 
       <div v-else class="mt-8 flex w-full flex-col gap-8">
-        <div 
-          v-for="item in fixtures" 
-          :key="item.team"
-          class="rounded-xl border-2 border-border bg-surface p-4 md:p-6"
+        <div
+            v-for="item in fixtures"
+            :key="item.team"
+            class="rounded-xl border-2 border-border bg-surface p-4 md:p-6"
         >
           <div class="mb-4 flex items-center gap-3 border-b border-border pb-4">
-            <img 
-              :src="favourites.getTeam(item.team)?.logo" 
-              :name="favourites.getTeam(item.team)?.name" 
-              class="h-8 w-8 md:h-12 md:w-12"
+            <img
+                :src="user.getFavouriteTeam(item.team).logo"
+                :alt="user.getFavouriteTeam(item.team).name"
+                class="h-8 w-8 md:h-12 md:w-12"
             />
+
             <h2 class="text-xl font-bold text-text md:text-2xl">
-              {{ favourites.getTeam(item.team)?.name }}
+              {{ user.getFavouriteTeam(item.team).name }}
             </h2>
+
             <span class="rounded-full bg-primary-100 px-2 py-1 text-xs text-text-muted">
               {{ item.matches.length }} matchs
             </span>
@@ -60,11 +71,12 @@ const errors = ref<Error | null>(null);
           <div v-if="item.matches.length === 0" class="py-4 text-center text-text-muted">
             Aucun match récent pour cette équipe
           </div>
+
           <ul v-else class="flex w-full flex-col items-center justify-center gap-3">
             <li
-              v-for="match in item.matches"
-              :key="match.fixture.id"
-              class="w-full"
+                v-for="match in item.matches"
+                :key="match.fixture.id"
+                class="w-full"
             >
               <MatchCard :fixture="match" />
             </li>
