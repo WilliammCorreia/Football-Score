@@ -23,7 +23,7 @@ const id = route.query.id
     <AppLoader v-if="isLoading" />
     <div v-else>
       <h1 class="m-3 text-3xl font-bold text-text-muted md:m-6 md:text-5xl">
-        Équipe 33
+        {{ team.name }}
       </h1>
 
       <p

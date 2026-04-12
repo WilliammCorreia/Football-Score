@@ -10,19 +10,24 @@ defineProps({
 });
 </script>
 
+<!-- components/PlayerList.vue -->
 <template>
-  <main class="rounded-xl border-blue-300 p-3 md:border-2 md:bg-white">
-            <ul
-
-        class="mt-8 flex w-full flex-col items-center justify-center"
-      >
+  <div class="mt-8 rounded-xl border-2 border-border bg-surface p-4 md:p-6">
+    <h2 class="mb-4 text-2xl font-bold text-text-muted md:mb-6 md:text-3xl">
+      Joueurs
+    </h2>
+    
+    <div class="max-h-96 overflow-y-auto">
+      <ul class="flex w-full flex-col items-center justify-center gap-3">
         <li
-          v-for="res in players"
-          :key="res.id"
-          class="my-2 w-full p-1 md:my-4 md:w-3/4 md:p-4"
+          v-for="player in players"
+          :key="player.id"
+          class="w-full"
         >
-          <PlayerItem :player="res" />
+          <PlayerItem :player="player" />
         </li>
       </ul>
-  </main>
+    </div>
+    
+  </div>
 </template>
