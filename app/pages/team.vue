@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 import type { TeamVenue } from '~/models/team';
 
+definePageMeta({
+  middleware: ['authenticated'],
+});
+
 const team = ref<TeamVenue | null>(null);
 const isLoading = ref(true);
 const errors = ref<Error | null>(null);
