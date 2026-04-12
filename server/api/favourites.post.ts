@@ -3,6 +3,7 @@ import { mapFixtureResponseToFixtures } from '@/utils/mappers/fixture.mapper';
 import { todayDate } from '@/utils/date.util';
 
 export default defineEventHandler(async (event): Promise<{team: number, matches: Fixture[]}[]> => {
+  const { user } = await requireUserSession(event);
   const config = useRuntimeConfig();
   const body = await readBody(event);
   console.log(body, body.teams.length);
@@ -15,16 +16,13 @@ export default defineEventHandler(async (event): Promise<{team: number, matches:
         'x-apisports-key': config.apiSportsKey,
       },
     });
-    console.log(response);  
     toRet.push({team: body.teams[i], matches: mapFixtureResponseToFixtures(response).slice(-5)});  
   }
-  console.log(toRet);
   return toRet;
     
     
   }
   catch (error) {
-    console.error('Erreur lors de la récupération des matchs', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Impossible de récupérer les matchs',

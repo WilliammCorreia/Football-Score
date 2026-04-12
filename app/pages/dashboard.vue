@@ -3,6 +3,10 @@ import { onMounted, ref } from 'vue';
 import type { Fixture } from '~/models/fixture';
 import { useFavouritesStore } from '~/store/favourites';
 
+definePageMeta({
+  middleware: ['authenticated'],
+});
+
 const favourites = useFavouritesStore();
 const fixtures = ref<{team: number, matches: Fixture[]}[]>([]);
 const isLoading = ref(true);
@@ -12,7 +16,6 @@ const errors = ref<Error | null>(null);
   const { data, pending, error } = await useFetch<{team: number, matches: Fixture[]}[]>('/api/favourites', { method: 'POST', body : 
     {teams: favourites.listIds()}
   });
-  console.log(data.value)
   if (data.value) {
     fixtures.value = data.value;
   }

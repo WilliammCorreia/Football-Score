@@ -1,3 +1,11 @@
+<script setup lang="ts">
+const { user, clear: clearSession } = useUserSession();
+async function logout () {
+  await clearSession()
+  await navigateTo('/login')
+}
+</script>
+
 <template>
   <nav class="size-full bg-primary-200">
     <ul class="px-4 py-8 md:px-7 md:py-10">
@@ -7,7 +15,7 @@
           size="2rem"
           mode="svg"
         />
-        <NuxtLink to="/dashboard">Vue d'ensemble</NuxtLink>
+        <NuxtLink to="/dashboard">Dashboard</NuxtLink>
       </li>
       <li class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400">
         <Icon
@@ -24,6 +32,30 @@
           mode="svg"
         />
         <NuxtLink to="/search">Recherche</NuxtLink>
+      </li>
+      <li v-if="!user" class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400">
+        <Icon
+          name="ion:ios-settings"
+          size="2rem"
+          mode="svg"
+        />
+        <NuxtLink to="/register">Inscription</NuxtLink>
+      </li>
+            <li v-if="!user" class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400">
+        <Icon
+          name="ion:ios-settings"
+          size="2rem"
+          mode="svg"
+        />
+        <NuxtLink to="/login">Login</NuxtLink>
+      </li>
+      <li v-if="user" class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400">
+        <Icon
+          name="ion:ios-settings"
+          size="2rem"
+          mode="svg"
+        />
+        <button @click="logout">Déconnexion</button>
       </li>
       <li class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400">
         <Icon
