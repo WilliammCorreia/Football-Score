@@ -1,6 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxt/icon'],
+
+  modules: [
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    '@nuxtjs/tailwindcss',
+    '@nuxt/icon',
+    '@nuxthub/core',
+    'nuxt-auth-utils',
+  ],
+  hub: {
+    db: 'postgresql'
+  },
   devtools: { enabled: true },
   css: ['@/assets/css/tailwind.css'],
   runtimeConfig: {

@@ -3,6 +3,16 @@ import { onMounted, ref } from 'vue';
 import type { Fixture } from '~/models/fixture';
 import { useFavouritesStore } from '~/store/favourites';
 
+definePageMeta({
+  middleware: ['authenticated'],
+});
+
+const { user, clear: clearSession } = useUserSession();
+async function logout () {
+  await clearSession()
+  await navigateTo('/login')
+}
+
 const favourites = useFavouritesStore();
 const fixtures = ref<{team: number, matches: Fixture[]}[]>([]);
 const isLoading = ref(true);
@@ -22,6 +32,10 @@ const errors = ref<Error | null>(null);
 </script>
 
 <template>
+      <h1>Welcome {{ user }}</h1>
+          <button @click="logout">
+      Logout
+    </button>
   <main>
     <AppLoader v-if="isLoading" />
     <div v-else>
