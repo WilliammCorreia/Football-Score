@@ -27,8 +27,9 @@ const teams = ref<Team[]>([])
         return false;
     }
 
-    function getTeam(id: number): Team | undefined {
-        return teams.value.find(value => value.id === id);
+    function getTeam(id: number): Team {
+        if(teams.value.find(value => value.id === id)) return teams.value.find(value => value.id === id)!;
+        throw new Error("Équipe non trouvée");
     }
 
 return {teams, addTeam, listIds, isInFavourites, getTeam}

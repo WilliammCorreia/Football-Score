@@ -14,17 +14,3 @@ export function mapPlayerResponseToPlayer(response: PlayerResponse): Player[] {
         photo: item.player.photo
     }))    
 }
-
-
-/**{ id: 74,
-  name: 'S. Amrabat',
-  firstname: 'Sofyan',
-  lastname: 'Amrabat',
-  age: 29,
-  birth: { date: '1996-08-21', place: 'Huizen', country: 'Netherlands' },
-  nationality: 'Morocco',
-  height: '183',
-  weight: '82',
-  injured: false,
-  photo: 'https://media.api-sports.io/football/players/74.png' }
- */

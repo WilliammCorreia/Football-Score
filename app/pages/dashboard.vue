@@ -43,7 +43,6 @@ const errors = ref<Error | null>(null);
           :key="item.team"
           class="rounded-xl border-2 border-border bg-surface p-4 md:p-6"
         >
-          <!-- En-tête de l'équipe -->
           <div class="mb-4 flex items-center gap-3 border-b border-border pb-4">
             <img 
               :src="favourites.getTeam(item.team)?.logo" 
@@ -58,11 +57,9 @@ const errors = ref<Error | null>(null);
             </span>
           </div>
 
-          <!-- Liste des matchs -->
           <div v-if="item.matches.length === 0" class="py-4 text-center text-text-muted">
             Aucun match récent pour cette équipe
           </div>
-          
           <ul v-else class="flex w-full flex-col items-center justify-center gap-3">
             <li
               v-for="match in item.matches"

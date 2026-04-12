@@ -9,8 +9,6 @@ defineProps({
   
 });
 </script>
-
-<!-- components/PlayerList.vue -->
 <template>
   <div class="mt-8 rounded-xl border-2 border-border bg-surface p-4 md:p-6">
     <h2 class="mb-4 text-2xl font-bold text-text-muted md:mb-6 md:text-3xl">

@@ -24,18 +24,8 @@ export function mapFixtureResponseToFixtures(response: FixtureResponse): Fixture
       flag: item.league.flag,
     },
     teams: {
-      home: {
-        id: item.teams.home.id,
-        name: item.teams.home.name,
-        logo: item.teams.home.logo,
-        winner: item.teams.home.winner,
-      },
-      away: {
-        id: item.teams.away.id,
-        name: item.teams.away.name,
-        logo: item.teams.away.logo,
-        winner: item.teams.away.winner,
-      },
+      home: item.teams.home,
+      away: item.teams.away,
     },
     goals: {
       home: item.goals.home,

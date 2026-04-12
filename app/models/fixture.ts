@@ -1,3 +1,5 @@
+import type { Team } from "./team";
+
 export interface Fixture {
   fixture: {
     id: string;
@@ -21,18 +23,8 @@ export interface Fixture {
     flag: string;
   };
   teams: {
-    home: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean;
-    };
-    away: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean;
-    };
+    home: Team;
+    away: Team;
   };
   goals: {
     home: number;
