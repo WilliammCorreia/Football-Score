@@ -2,7 +2,7 @@
 import SearchCard from '@/components/SearchCard.vue';
 import type { TeamVenue } from '@/models/team';
 
-const searchQuery = ref('');
+const searchQuery = ref('Paris Saint Germain');
 const debouncedQuery = ref('');
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
