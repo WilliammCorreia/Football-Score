@@ -5,6 +5,8 @@ COPY package*.json .
 
 RUN npm install
 
+RUN npx nuxt db generate && npx nuxt db migrate
+
 FROM base AS dev
 
 COPY . .

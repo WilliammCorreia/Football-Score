@@ -2,6 +2,10 @@
 import { onMounted, ref } from 'vue';
 import type { Fixture } from '~/models/fixture';
 
+definePageMeta({
+  middleware: ['authenticated'],
+});
+
 const fixtures = ref<Fixture[]>([]);
 const isLoading = ref(true);
 const errors = ref<Error | null>(null);
