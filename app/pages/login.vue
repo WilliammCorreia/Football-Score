@@ -10,8 +10,6 @@ async function login () {
       method: 'POST',
       body: credentials,
     })
-
-    // Refresh the session on client-side and redirect to the home page
     await refreshSession()
     await navigateTo('/')
   } catch {

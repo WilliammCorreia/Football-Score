@@ -2,6 +2,8 @@
 const { loggedIn, user, fetch: refreshSession } = useUserSession()
 const credentials = reactive({
   name: '',
+  password: '',
+  avatar: '',
   email: '',
 })
 async function login () {
@@ -11,21 +13,30 @@ async function login () {
       body: credentials,
     })
 
-    // Refresh the session on client-side and redirect to the home page
-    await refreshSession()
-    await navigateTo('/')
+    await navigateTo('/login')
   } catch {
-    alert('Bad credentials')
+    alert('Register failed')
   }
 }
 </script>
 
 <template>
   <form @submit.prevent="login">
+        <input
+      v-model="credentials.avatar"
+      type="text"
+      placeholder="avatar"
+    >
+     
     <input
       v-model="credentials.email"
       type="email"
       placeholder="Email"
+    >
+       <input
+      v-model="credentials.password"
+      type="password"
+      placeholder="Password"
     >
     <input
       v-model="credentials.name"

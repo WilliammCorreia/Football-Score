@@ -1,17 +1,17 @@
 import { db, schema } from '@nuxthub/db'
+import { eq } from 'drizzle-orm';
+import { users } from 'hub:db:schema';
 
 export default defineEventHandler(async (event): Promise<string> => {
     const config = useRuntimeConfig();
     const body = await readBody(event);
-    console.log(body);
-    let users = await db.select().from(schema.users);
-    if(users.find(value => value.email === body.email && value.password === body.password)){
-    await setUserSession(event, {
-      user: {
-        name: 'John Doe',
-      },
-    })
-    return "logged";
+    let toCheck = await db.selectDistinct().from(schema.users).where(eq(users.email, body.email));
+    let hash = await verifyPassword(toCheck[0]!.password, body.password);
+    if(toCheck.find(value => value.email === body.email && hash)){
+        await setUserSession(event, {
+        user: toCheck[0]
+        })
+        return "logged";
     }
 
     throw createError({
@@ -19,4 +19,3 @@ export default defineEventHandler(async (event): Promise<string> => {
         statusMessage: 'Impossible de se connecter',
     });
 });
-
