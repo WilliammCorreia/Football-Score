@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import type { Team } from '~/models/team';
+import { ref } from 'vue';
+import type { TeamVenue } from '~/models/team';
 
-const team = ref<Team>({id:0, name:"", country:"", logo:"", founded:0, code:"", player: []});
+const team = ref<TeamVenue | null>(null);
 const isLoading = ref(true);
 const errors = ref<Error | null>(null);
 const route = useRoute();
-const id = route.query.id
+const id = route.query.id;
 
-  const { data, pending, error } = await useFetch<Team>('/api/team?id=' + id);
-    console.log(data.value)
-  if (data.value) {
-    team.value = data.value;
-  }
-  isLoading.value = pending.value;
-  errors.value = error.value ?? null;
-
+const { data, pending, error } = await useFetch<TeamVenue>('/api/team?id=' + id);
+console.log(data.value);
+if (data.value) {
+  team.value = data.value;
+}
+isLoading.value = pending.value;
+errors.value = error.value ?? null;
 </script>
 
 <template>
@@ -23,7 +22,7 @@ const id = route.query.id
     <AppLoader v-if="isLoading" />
     <div v-else>
       <h1 class="m-3 text-3xl font-bold text-text-muted md:m-6 md:text-5xl">
-        {{ team.name }}
+        {{ team?.team.name }}
       </h1>
 
       <p
@@ -37,7 +36,7 @@ const id = route.query.id
         v-else
         class="mt-8 flex w-full flex-col items-center justify-center"
       >
-        <TeamCard :team="team" />
+        <TeamCard :team="team?.team" />
       </ul>
     </div>
   </main>
