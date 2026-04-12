@@ -5,9 +5,10 @@ import type { Team } from '~/models/team';
 const team = ref<Team>({id:0, name:"", country:"", logo:"", founded:0, code:"", player: []});
 const isLoading = ref(true);
 const errors = ref<Error | null>(null);
+const route = useRoute();
+const id = route.query.id
 
-
-  const { data, pending, error } = await useFetch<Team>('/api/team');
+  const { data, pending, error } = await useFetch<Team>('/api/team?id=' + id);
     console.log(data.value)
   if (data.value) {
     team.value = data.value;

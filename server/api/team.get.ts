@@ -3,18 +3,20 @@ import type { Player, PlayerResponse } from '@/models/player';
 import { mapTeamResponseToTeams } from '@/utils/mappers/team.mapper';
 import { mapPlayerResponseToPlayer } from '@/utils/mappers/player.mapper';
 
-export default defineEventHandler(async (): Promise<Team> => {
+export default defineEventHandler(async (event): Promise<Team> => {
   const config = useRuntimeConfig();
+  const query = getQuery(event)
+  const id = query.id
 
   try {
-    const response = await $fetch<TeamResponse>(`https://v3.football.api-sports.io/teams?id=33`, {
+    const response = await $fetch<TeamResponse>('https://v3.football.api-sports.io/teams?id=' + id, {
       method: 'GET',
       headers: {
         'x-apisports-key': config.apiSportsKey,
       },
     });
     console.log(response)
-    const response2 = await $fetch<PlayerResponse>(`https://v3.football.api-sports.io//players?team=33&season=2024`, {
+    const response2 = await $fetch<PlayerResponse>('https://v3.football.api-sports.io//players?team=' + id + '&season=2024', {
       method: 'GET',
       headers: {
         'x-apisports-key': config.apiSportsKey,
