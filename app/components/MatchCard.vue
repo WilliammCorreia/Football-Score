@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import type { Fixture } from '@/models/fixture';
+import { useFavouritesStore } from '~/store/favourites';
+
+const favourites = useFavouritesStore();
+
 
 defineProps<{
   fixture: Fixture;
@@ -8,18 +12,18 @@ defineProps<{
 
 <template>
   <div class="flex min-h-32 w-full items-center justify-between gap-2 rounded-xl border-2 border-border bg-surface py-2 md:gap-8 md:border-4 md:p-8">
-    <TeamLogo
+    <NuxtLink :to="{ path: '/team', query: { id: fixture.teams.home.id } }"><TeamLogo
       :url="fixture.teams.home.logo"
       :name="fixture.teams.home.name"
-    />
+    /></NuxtLink>
     <main class="flex flex-1 flex-col items-center justify-between gap-1">
       <div class="flex w-full justify-between gap-8">
-        <h3 class="text-sm font-bold md:text-xl">
-          {{ fixture.teams.home.name }}
-        </h3>
-        <h2 class="text-right text-sm font-bold md:text-xl">
-          {{ fixture.teams.away.name }}
-        </h2>
+        <NuxtLink :to="{ path: '/team', query: { id: fixture.teams.home.id } }"><h3 class="text-sm font-bold md:text-xl">
+          {{ fixture.teams.home.name }} 
+        </h3></NuxtLink><FavouriteButton :team="fixture.teams.home" />
+        <FavouriteButton :team="fixture.teams.away" /><NuxtLink :to="{ path: '/team', query: { id: fixture.teams.away.id } }"><h2 class="text-right text-sm font-bold md:text-xl">
+          {{ fixture.teams.away.name }} 
+        </h2></NuxtLink>
       </div>
       <h2
         v-if="fixture.fixture.status.short !== 'NS'"
@@ -40,9 +44,9 @@ defineProps<{
       >{{ fixture.fixture.status.elapsed }}'</span>
       <span class="text-center text-xs md:text-lg">{{ fixture.fixture.venue.name }}</span>
     </main>
-    <TeamLogo
+    <NuxtLink :to="{ path: '/team', query: { id: fixture.teams.away.id } }"><TeamLogo
       :url="fixture.teams.away.logo"
       :name="fixture.teams.away.name"
-    />
+    /></NuxtLink>
   </div>
 </template>
