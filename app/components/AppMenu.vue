@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const { user, clear: clearSession } = useUserSession();
 async function logout () {
-  console.log("LOGOUT")
   await clearSession()
   await navigateTo('/login')
 }
@@ -16,7 +15,7 @@ async function logout () {
           size="2rem"
           mode="svg"
         />
-        <NuxtLink to="/dashboard">Vue d'ensemble</NuxtLink>
+        <NuxtLink to="/dashboard">Dashboard</NuxtLink>
       </li>
       <li class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400">
         <Icon
