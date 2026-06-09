@@ -11,17 +11,56 @@ const favourites = useFavouritesStore();
 const fixtures = ref<{ team: number; matches: Fixture[] }[]>([]);
 const isLoading = ref(true);
 const errors = ref<Error | null>(null);
+const paymentStatus = ref<'idle' | 'processing' | 'success' | 'error'>('idle');
 
-console.log('Lancement du onMounted', favourites.listIds());
+const { track } = useUmami();
+const { captureException, measureLoadTime } = useGlitchTip();
+
+track('checkout_start', {
+  favourite_count: favourites.listIds().length,
+});
+
+// Mesure de performance : heure de début de chargement
+const loadStart = import.meta.client ? performance.now() : 0;
+
 const { data, pending, error } = await useFetch<{ team: number; matches: Fixture[] }[]>('/api/favourites', { method: 'POST', body:
     { teams: favourites.listIds() },
 });
-console.log(data.value);
+
 if (data.value) {
   fixtures.value = data.value;
+  // Performance tracking : envoie le temps de chargement à GlitchTip
+  measureLoadTime('Dashboard — validation commande', loadStart);
+  track('checkout_success', {
+    favourite_count: favourites.listIds().length,
+    match_count: data.value.reduce((acc, item) => acc + item.matches.length, 0),
+  });
 }
 isLoading.value = pending.value;
 errors.value = error.value ?? null;
+
+// Simulation de paiement défaillant — échoue 1 fois sur 3 (TypeError)
+async function simulerPaiement() {
+  paymentStatus.value = 'processing';
+
+  try {
+    if (Math.random() < 1 / 3) {
+      // TypeError volontaire : accès à une propriété sur null
+      const gateway = null as unknown as { process: (amount: number) => void };
+      gateway.process(49.99);
+    }
+
+    // Simule un délai de traitement réseau
+    await new Promise<void>(resolve => setTimeout(resolve, 600));
+
+    paymentStatus.value = 'success';
+    track('checkout_success', { amount: 49.99, currency: 'EUR' });
+  } catch (err) {
+    // Capture manuelle de l'exception vers GlitchTip
+    captureException(err);
+    paymentStatus.value = 'error';
+  }
+}
 </script>
 
 <template>
@@ -43,7 +82,7 @@ errors.value = error.value ?? null;
         v-else-if="fixtures.length === 0"
         class="mt-8 text-center text-text-muted"
       >
-        <p>Aucune équipe favorite pour le moment</p>
+        <p>Aucune équipe favorite pour le moment !</p>
       </div>
 
       <div
@@ -88,6 +127,41 @@ errors.value = error.value ?? null;
             </li>
           </ul>
         </div>
+      </div>
+
+      <!-- Simulation de paiement défaillant — validation GlitchTip (Partie 2) -->
+      <div v-if="errors"> il y a une errreur test</div>
+      <div
+        v-if="!errors"
+        class="mt-8 rounded-xl border-2 border-dashed border-border p-4 md:p-6"
+      >
+        <h2 class="mb-1 text-lg font-semibold text-text-muted">
+          Simulation de paiement
+        </h2>
+        <p class="mb-4 text-sm text-text-muted">
+          Échoue volontairement 1 fois sur 3 avec un TypeError — erreurs remontées dans GlitchTip.
+        </p>
+
+        <button
+          class="rounded-lg bg-primary-300 px-5 py-2 font-medium hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-50"
+          :disabled="paymentStatus === 'processing'"
+          @click="simulerPaiement"
+        >
+          {{ paymentStatus === 'processing' ? 'Traitement en cours…' : 'Payer 49,99 €' }}
+        </button>
+
+        <p
+          v-if="paymentStatus === 'success'"
+          class="mt-3 font-medium text-green-600"
+        >
+          Paiement accepté
+        </p>
+        <p
+          v-else-if="paymentStatus === 'error'"
+          class="mt-3 font-medium text-red-500"
+        >
+          Paiement refusé — erreur capturée dans GlitchTip
+        </p>
       </div>
     </div>
   </main>

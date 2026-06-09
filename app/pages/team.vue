@@ -11,11 +11,15 @@ const isLoading = ref(true);
 const errors = ref<Error | null>(null);
 const route = useRoute();
 const id = route.query.id;
+const { track } = useUmami();
 
 const { data, pending, error } = await useFetch<TeamVenue>('/api/team?id=' + id);
-console.log(data.value);
 if (data.value) {
   team.value = data.value;
+  track('view_product', {
+    team_id: id,
+    team_name: data.value.team?.name,
+  });
 }
 isLoading.value = pending.value;
 errors.value = error.value ?? null;
