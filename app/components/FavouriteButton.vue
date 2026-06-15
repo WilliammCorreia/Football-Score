@@ -12,7 +12,7 @@ const isInFavourites = computed(() => favourites.isInFavourites(props.team));
 <template>
   <button
     class="rounded-xl p-2 hover:bg-primary-300"
-    @click="favourites.addTeam(team)"
+    @click="favourites.toggleTeam(team)"
   >
     <Icon
       :name="isInFavourites ? 'ion:ios-heart' : 'ion:ios-heart-empty'"

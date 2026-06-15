@@ -8,15 +8,21 @@ definePageMeta({
 });
 
 const favourites = useFavouritesStore();
+
+// Charge les favoris depuis la BDD avant de récupérer les matchs
+if (!favourites.loaded) {
+  await favourites.fetchFromServer();
+}
+
 const fixtures = ref<{ team: number; matches: Fixture[] }[]>([]);
 const isLoading = ref(true);
 const errors = ref<Error | null>(null);
 
-console.log('Lancement du onMounted', favourites.listIds());
-const { data, pending, error } = await useFetch<{ team: number; matches: Fixture[] }[]>('/api/favourites', { method: 'POST', body:
-    { teams: favourites.listIds() },
+const { data, pending, error } = await useFetch<{ team: number; matches: Fixture[] }[]>('/api/dashboard-matches', {
+  method: 'POST',
+  body: { teams: favourites.listIds() },
 });
-console.log(data.value);
+
 if (data.value) {
   fixtures.value = data.value;
 }
@@ -61,7 +67,7 @@ errors.value = error.value ?? null;
               :name="favourites.getTeam(item.team)?.name"
               class="size-8 md:size-12"
             >
-            <h2 class="text-text text-xl font-bold md:text-2xl">
+            <h2 class="text-text-main text-xl font-bold md:text-2xl">
               {{ favourites.getTeam(item.team)?.name }}
             </h2>
             <span class="bg-primary-100 rounded-full px-2 py-1 text-xs text-text-muted">

@@ -43,6 +43,17 @@ async function logout() {
         <NuxtLink to="/search">Recherche</NuxtLink>
       </li>
       <li
+        v-if="loggedIn"
+        class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400"
+      >
+        <Icon
+          name="ion:ios-star"
+          size="2rem"
+          mode="svg"
+        />
+        <NuxtLink to="/premium">Premium</NuxtLink>
+      </li>
+      <li
         v-if="!user"
         class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400"
       >
@@ -70,11 +81,11 @@ async function logout() {
         class="my-2 flex flex-row items-center gap-2 rounded-xl p-3 text-xl font-semibold hover:bg-primary-300 active:bg-primary-400"
       >
         <Icon
-          name="ion:ios-settings"
+          name="ion:ios-person"
           size="2rem"
           mode="svg"
         />
-        <NuxtLink to="/settings">Paramètres</NuxtLink>
+        <NuxtLink to="/profil">Profil</NuxtLink>
       </li>
       <li
         v-if="user"

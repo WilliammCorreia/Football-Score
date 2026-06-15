@@ -27,7 +27,7 @@ const IsDesktop = computed(() => useIsDesktopValue.value);
       Football Score
     </h1>
     <div>
-      <!-- Sert uniquement pour l'alignement -->
+      <PremiumBadge />
     </div>
   </header>
 </template>

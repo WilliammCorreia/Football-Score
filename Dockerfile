@@ -5,12 +5,12 @@ COPY package*.json .
 
 RUN npm install
 
-RUN npx nuxt db generate && npx nuxt db migrate
-
 FROM base AS dev
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+# Au démarrage : on attend que Postgres soit prêt (depends_on s'en occupe),
+# puis on applique les migrations Drizzle et on lance Nuxt en dev.
+CMD ["sh", "-c", "npx nuxt db migrate && npm run dev"]
