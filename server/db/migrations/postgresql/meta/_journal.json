@@ -8,6 +8,27 @@
       "when": 1775992392421,
       "tag": "0000_curious_quasimodo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737000000000,
+      "tag": "0001_premium_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749500000000,
+      "tag": "0002_cart_and_purchases",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1779700000000,
+      "tag": "0003_rollback_cart",
+      "breakpoints": true
     }
   ]
 }

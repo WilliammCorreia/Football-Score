@@ -9,60 +9,58 @@ defineProps<{
 
 <template>
   <div class="flex w-full flex-col gap-6">
-    <div class="flex min-h-32 w-full flex-col items-center gap-4 rounded-xl border-2 border-border bg-surface p-4 md:p-8">
-      <div class="flex items-center gap-4">
-        <FavouriteButton :team="team" />
-        <TeamLogo
-          :url="team.logo"
-          :name="team.name"
-          size="lg"
-        />
+    <!-- Hero card -->
+    <article class="overflow-hidden rounded-2xl border border-border bg-surface shadow-card">
+      <div class="bg-gradient-to-br from-primary-500 to-primary-700 px-6 py-12 md:px-12">
+        <div class="flex flex-col items-center gap-6 md:flex-row md:gap-10">
+          <div class="rounded-xl bg-white p-3 shadow-lg md:p-4">
+            <TeamLogo
+              :url="team.logo"
+              :name="team.name"
+              size="xl"
+            />
+          </div>
+          <div class="flex-1 text-center md:text-left">
+            <p class="eyebrow !text-primary-100 mb-2">
+              {{ team.country || 'Équipe' }} · Fondée en {{ team.founded || 'N/A' }}
+            </p>
+            <h1 class="display text-5xl leading-none text-white md:text-7xl">
+              {{ team.name }}
+            </h1>
+          </div>
+          <FavouriteButton :team="team" class="!bg-white/10 !text-white hover:!bg-white/20" />
+        </div>
       </div>
 
-      <div class="text-center">
-        <h2 class="text-2xl font-bold md:text-3xl">
-          {{ team.name }}
-        </h2>
-        <p class="text-text-muted">
-          Code: {{ team.code }}
-        </p>
-      </div>
+      <!-- Stats grid -->
+      <dl class="grid grid-cols-2 divide-x divide-border md:grid-cols-4">
+        <div class="px-4 py-4 text-center md:py-6">
+          <dt class="eyebrow mb-1">Pays</dt>
+          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+            {{ team.country || '—' }}
+          </dd>
+        </div>
+        <div class="px-4 py-4 text-center md:py-6">
+          <dt class="eyebrow mb-1">Fondée</dt>
+          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+            {{ team.founded || '—' }}
+          </dd>
+        </div>
+        <div class="border-t border-border px-4 py-4 text-center md:border-t-0 md:py-6">
+          <dt class="eyebrow mb-1">Code</dt>
+          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+            {{ team.code || '—' }}
+          </dd>
+        </div>
+        <div class="border-t border-border px-4 py-4 text-center md:border-t-0 md:py-6">
+          <dt class="eyebrow mb-1">ID</dt>
+          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+            #{{ team.id }}
+          </dd>
+        </div>
+      </dl>
+    </article>
 
-      <div class="grid w-full grid-cols-2 gap-4 text-center md:grid-cols-4">
-        <div class="rounded-lg p-3">
-          <p class="text-sm text-text-muted">
-            Country
-          </p>
-          <p class="font-semibold">
-            {{ team.country }}
-          </p>
-        </div>
-        <div class="rounded-lg p-3">
-          <p class="text-sm text-text-muted">
-            Founded
-          </p>
-          <p class="font-semibold">
-            {{ team.founded }}
-          </p>
-        </div>
-        <div class="rounded-lg p-3">
-          <p class="text-sm text-text-muted">
-            Code
-          </p>
-          <p class="font-semibold">
-            {{ team.code }}
-          </p>
-        </div>
-        <div class="rounded-lg p-3">
-          <p class="text-sm text-text-muted">
-            ID
-          </p>
-          <p class="font-semibold">
-            {{ team.id }}
-          </p>
-        </div>
-      </div>
-    </div>
     <PlayerList :players="team.player" />
   </div>
 </template>

@@ -10,7 +10,14 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
   ],
   hub: {
-    db: 'postgresql'
+    db: {
+      dialect: 'postgresql',
+      driver: 'postgres-js',
+      // En conteneur, on évite d'appliquer les migrations au build (la BDD n'est pas
+      // encore prête à ce moment) et au dev (on lance manuellement avec npx).
+      applyMigrationsDuringBuild: false,
+      applyMigrationsDuringDev: false,
+    },
   },
   devtools: { enabled: true },
   css: ['@/assets/css/tailwind.css'],

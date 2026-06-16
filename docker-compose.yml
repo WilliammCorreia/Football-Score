@@ -1,4 +1,7 @@
 services:
+  # ============================================================
+  # Application Web (Nuxt 4)
+  # ============================================================
   web:
     build: .
     ports:
@@ -8,3 +11,47 @@ services:
       - /app/.nuxt
       - .:/app
     env_file: ".env"
+    environment:
+      # NuxtHub bascule automatiquement de PGlite vers postgres-js
+      # dès que DATABASE_URL est défini.
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - football-net
+
+  # ============================================================
+  # PostgreSQL (base de données de l'application)
+  # ============================================================
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - football-net
+
+# ============================================================
+# Volumes persistants (les données survivent à docker compose down)
+# ============================================================
+volumes:
+  postgres-data:
+
+# ============================================================
+# Network partagé entre les services
+# ============================================================
+networks:
+  football-net:
+    driver: bridge

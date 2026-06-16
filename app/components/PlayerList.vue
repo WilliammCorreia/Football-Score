@@ -6,26 +6,26 @@ defineProps({
     type: Array<Player>,
     required: true,
   },
-  
 });
 </script>
+
 <template>
-  <div class="mt-8 rounded-xl border-2 border-border bg-surface p-4 md:p-6">
-    <h2 class="mb-4 text-2xl font-bold text-text-muted md:mb-6 md:text-3xl">
-      Joueurs
-    </h2>
-    
-    <div class="max-h-96 overflow-y-auto">
-      <ul class="flex w-full flex-col items-center justify-center gap-3">
-        <li
-          v-for="player in players"
-          :key="player.id"
-          class="w-full"
-        >
+  <section class="rounded-2xl border border-border bg-surface shadow-card">
+    <header class="flex items-baseline justify-between border-b border-border px-6 py-4">
+      <h2 class="display text-3xl text-text-main">
+        Effectif
+      </h2>
+      <span class="font-mono tabular text-sm font-semibold text-text-muted">
+        {{ players?.length || 0 }} joueurs
+      </span>
+    </header>
+
+    <div class="max-h-[32rem] overflow-y-auto p-3 md:p-4">
+      <ul class="space-y-2">
+        <li v-for="player in players" :key="player.id">
           <PlayerItem :player="player" />
         </li>
       </ul>
     </div>
-    
-  </div>
+  </section>
 </template>

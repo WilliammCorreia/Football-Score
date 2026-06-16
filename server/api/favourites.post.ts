@@ -1,28 +1,46 @@
-import type { Fixture, FixtureResponse } from '@/models/fixture';
-import { mapFixtureResponseToFixtures } from '@/utils/mappers/fixture.mapper';
+import { db, schema } from '@nuxthub/db'
+import { and, eq } from 'drizzle-orm';
+import { favourites } from 'hub:db:schema';
 
-export default defineEventHandler(async (event): Promise<{ team: number; matches: Fixture[] }[]> => {
+interface AddFavouriteBody {
+  teamId: number;
+  teamName: string;
+  teamLogo: string;
+}
+
+export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event);
-  const config = useRuntimeConfig();
-  const body = await readBody(event);
-  console.log(body, body.teams.length);
-  const toRet: { team: number; matches: Fixture[] }[] = [];
-  try {
-    for (let i = 0; i < body.teams.length; i++) {
-      const response = await $fetch<FixtureResponse>('https://v3.football.api-sports.io/fixtures?team=' + body.teams[i] + '&season=2024', {
-        method: 'GET',
-        headers: {
-          'x-apisports-key': config.apiSportsKey,
-        },
-      });
-      toRet.push({ team: body.teams[i], matches: mapFixtureResponseToFixtures(response).slice(-5) });
-    }
-    return toRet;
-  }
-  catch (error) {
+  const body = await readBody<AddFavouriteBody>(event);
+
+  if (!body?.teamId || !body?.teamName) {
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Impossible de récupérer les matchs',
+      statusCode: 400,
+      statusMessage: 'teamId et teamName sont requis',
     });
   }
+
+  // Vérifie si déjà en favori (l'index unique aurait planté, mais on préfère un message clair)
+  const existing = await db
+    .select()
+    .from(schema.favourites)
+    .where(
+      and(
+        eq(favourites.userId, (user as { id: number }).id),
+        eq(favourites.teamId, body.teamId),
+      ),
+    )
+    .limit(1);
+
+  if (existing.length > 0) {
+    return existing[0];
+  }
+
+  const [newFav] = await db.insert(schema.favourites).values({
+    userId: (user as { id: number }).id,
+    teamId: body.teamId,
+    teamName: body.teamName,
+    teamLogo: body.teamLogo || '',
+  }).returning();
+
+  return newFav;
 });
