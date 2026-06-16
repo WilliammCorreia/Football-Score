@@ -9,7 +9,6 @@ definePageMeta({
 
 const favourites = useFavouritesStore();
 
-// Charge les favoris depuis la BDD avant de récupérer les matchs
 if (!favourites.loaded) {
   await favourites.fetchFromServer();
 }
@@ -31,70 +30,80 @@ errors.value = error.value ?? null;
 </script>
 
 <template>
-  <main>
-    <AppLoader v-if="isLoading" />
-    <div v-else>
-      <h1 class="m-3 text-3xl font-bold text-text-muted md:m-6 md:text-5xl">
-        Dashboard
+  <div class="mx-auto max-w-5xl px-4 py-8 md:px-8 md:py-12">
+    <header class="mb-8 md:mb-12">
+      <p class="eyebrow mb-3">Tableau de bord</p>
+      <h1 class="display text-5xl text-text-main md:text-7xl">
+        Vos équipes
       </h1>
-
-      <p
-        v-if="errors"
-        class="text-lg text-danger"
-      >
-        Une erreur est survenue lors de l'appel API.
+      <p v-if="!isLoading && favourites.teams.length > 0" class="mt-2 font-mono tabular text-sm text-text-muted">
+        {{ favourites.teams.length }} équipe{{ favourites.teams.length > 1 ? 's' : '' }} suivie{{ favourites.teams.length > 1 ? 's' : '' }}
       </p>
+    </header>
 
-      <div
-        v-else-if="fixtures.length === 0"
-        class="mt-8 text-center text-text-muted"
-      >
-        <p>Aucune équipe favorite pour le moment</p>
-      </div>
+    <AppLoader v-if="isLoading" />
 
-      <div
-        v-else
-        class="mt-8 flex w-full flex-col gap-8"
-      >
-        <div
-          v-for="item in fixtures"
-          :key="item.team"
-          class="rounded-xl border-2 border-border bg-surface p-4 md:p-6"
-        >
-          <div class="mb-4 flex items-center gap-3 border-b border-border pb-4">
-            <img
-              :src="favourites.getTeam(item.team)?.logo"
-              :name="favourites.getTeam(item.team)?.name"
-              class="size-8 md:size-12"
-            >
-            <h2 class="text-text-main text-xl font-bold md:text-2xl">
-              {{ favourites.getTeam(item.team)?.name }}
-            </h2>
-            <span class="bg-primary-100 rounded-full px-2 py-1 text-xs text-text-muted">
-              {{ item.matches.length }} matchs
-            </span>
-          </div>
-
-          <div
-            v-if="item.matches.length === 0"
-            class="py-4 text-center text-text-muted"
-          >
-            Aucun match récent pour cette équipe
-          </div>
-          <ul
-            v-else
-            class="flex w-full flex-col items-center justify-center gap-3"
-          >
-            <li
-              v-for="match in item.matches"
-              :key="match.fixture.id"
-              class="w-full"
-            >
-              <MatchCard :fixture="match" />
-            </li>
-          </ul>
-        </div>
+    <div
+      v-else-if="errors"
+      class="card flex items-start gap-3 p-6"
+    >
+      <Icon name="lucide:alert-triangle" size="1.5rem" class="shrink-0 text-danger" />
+      <div>
+        <h2 class="font-semibold text-text-main">Impossible de charger vos matchs</h2>
+        <p class="text-sm text-text-muted">
+          Une erreur est survenue lors de l'appel API. Réessayez dans quelques instants.
+        </p>
       </div>
     </div>
-  </main>
+
+    <div
+      v-else-if="fixtures.length === 0"
+      class="card flex flex-col items-center gap-3 p-12 text-center"
+    >
+      <Icon name="lucide:heart-off" size="2.5rem" class="text-text-soft" />
+      <h2 class="text-lg font-semibold text-text-main">Aucune équipe favorite</h2>
+      <p class="max-w-md text-sm text-text-muted">
+        Ajoutez des équipes à vos favoris depuis la
+        <NuxtLink to="/search" class="font-semibold text-primary-600 underline hover:text-primary-hover">
+          page Recherche
+        </NuxtLink>
+        pour suivre leurs matchs ici.
+      </p>
+    </div>
+
+    <div v-else class="space-y-10">
+      <section
+        v-for="item in fixtures"
+        :key="item.team"
+      >
+        <div class="mb-4 flex items-baseline justify-between border-b border-border pb-3">
+          <div class="flex items-center gap-3">
+            <img
+              :src="favourites.getTeam(item.team)?.logo"
+              :alt="favourites.getTeam(item.team)?.name"
+              class="size-10 object-contain"
+            >
+            <h2 class="display text-3xl text-text-main md:text-4xl">
+              {{ favourites.getTeam(item.team)?.name }}
+            </h2>
+          </div>
+          <span class="font-mono tabular text-sm text-text-muted">
+            {{ item.matches.length }} match{{ item.matches.length > 1 ? 's' : '' }}
+          </span>
+        </div>
+
+        <div
+          v-if="item.matches.length === 0"
+          class="card p-6 text-center text-sm text-text-muted"
+        >
+          Aucun match récent pour cette équipe.
+        </div>
+        <ul v-else class="space-y-4">
+          <li v-for="match in item.matches" :key="match.fixture.id">
+            <MatchCard :fixture="match" />
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
 </template>

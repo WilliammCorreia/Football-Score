@@ -5,39 +5,38 @@ definePageMeta({
 </script>
 
 <template>
-  <main class="flex justify-center p-4 pt-16 md:pt-36">
-    <div class="w-full max-w-lg rounded-xl border-2 border-border bg-surface p-8 md:p-10 text-center">
-      <div class="mb-6 flex justify-center">
-        <Icon
-          name="mdi:lock"
-          size="4rem"
-          class="text-primary-500"
-        />
-      </div>
+  <main class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+      <div class="card p-8 text-center md:p-10">
+        <div class="mx-auto mb-6 flex size-16 items-center justify-center rounded-full bg-accent-50">
+          <Icon name="lucide:lock" size="2rem" class="text-accent-500" />
+        </div>
 
-      <h1 class="mb-4 text-3xl font-bold text-text-main md:text-4xl">
-        Accès réservé
-      </h1>
+        <p class="eyebrow mb-3">Accès réservé</p>
+        <h1 class="display text-5xl text-text-main md:text-6xl">
+          Premium uniquement
+        </h1>
 
-      <p class="mb-8 text-base text-text-muted md:text-lg">
-        Cette fonctionnalité est réservée aux abonnés Premium.
-        Passez Premium pour en profiter pleinement.
-      </p>
+        <p class="mx-auto mt-3 max-w-sm text-text-muted">
+          Cette fonctionnalité est réservée aux abonnés Premium. Passez Premium pour en profiter.
+        </p>
 
-      <NuxtLink
-        to="/premium"
-        class="inline-block rounded-xl bg-primary-500 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-primary-hover hover:scale-105 active:bg-primary-700 md:text-xl"
-      >
-        Découvrir Premium
-      </NuxtLink>
-
-      <div class="mt-6">
         <NuxtLink
-          to="/dashboard"
-          class="text-sm text-text-muted underline hover:text-primary-500"
+          to="/premium"
+          class="mt-8 inline-flex items-center gap-2 rounded-xl bg-primary-500 px-6 py-3.5 text-base font-semibold text-white shadow-md transition-colors hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
-          Retour au tableau de bord
+          Découvrir Premium
+          <Icon name="lucide:arrow-right" size="1.125rem" />
         </NuxtLink>
+
+        <div class="mt-6">
+          <NuxtLink
+            to="/dashboard"
+            class="text-sm font-medium text-text-muted underline hover:text-text-main"
+          >
+            Retour au tableau de bord
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </main>

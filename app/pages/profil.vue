@@ -7,38 +7,52 @@ const { user } = useUserSession();
 </script>
 
 <template>
-  <main class="min-h-screen bg-background-app py-8 px-4 md:py-12">
-    <div class="mx-auto max-w-4xl space-y-8">
+  <div class="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">
+    <!-- Header avec avatar -->
+    <header class="mb-10">
+      <p class="eyebrow mb-3">Mon espace</p>
+      <h1 class="display text-5xl text-text-main md:text-7xl">
+        Profil
+      </h1>
+    </header>
 
-      <!-- ============ Header avec avatar ============ -->
-      <div class="rounded-xl border-2 border-border bg-surface p-6 md:p-8">
-        <div class="flex flex-col items-center gap-4 md:flex-row md:gap-6">
-          <img
-            v-if="user?.avatar"
-            :src="user.avatar"
-            :alt="user.name"
-            class="size-24 rounded-full border-4 border-primary-500 object-cover md:size-32"
-          >
-          <div class="text-center md:text-left">
-            <h1 class="text-3xl font-bold text-text-main md:text-4xl">
-              {{ user?.name || 'Mon profil' }}
-            </h1>
-            <p class="mt-1 text-text-muted">
-              {{ user?.email }}
-            </p>
-            <PremiumBadge class="mt-3" />
+    <!-- Carte identité -->
+    <div class="card mb-8 p-6 md:p-8">
+      <div class="flex flex-col items-center gap-5 text-center md:flex-row md:gap-6 md:text-left">
+        <img
+          v-if="user?.avatar"
+          :src="user.avatar"
+          :alt="user.name"
+          class="size-24 rounded-full border-2 border-border object-cover md:size-28"
+        >
+        <div v-else class="flex size-24 items-center justify-center rounded-full bg-primary-100 text-3xl font-bold text-primary-700 md:size-28">
+          {{ user?.name?.charAt(0).toUpperCase() }}
+        </div>
+        <div class="flex-1">
+          <h2 class="display text-3xl text-text-main md:text-4xl">
+            {{ user?.name || 'Utilisateur' }}
+          </h2>
+          <p class="mt-1 text-text-muted">
+            {{ user?.email }}
+          </p>
+          <div class="mt-3 flex justify-center md:justify-start">
+            <PremiumBadge />
           </div>
         </div>
       </div>
-
-      <!-- ============ Informations du profil ============ -->
-      <div class="rounded-xl border-2 border-border bg-surface p-6 md:p-8">
-        <h2 class="mb-4 text-xl font-bold text-text-main md:text-2xl">
-          Informations du profil
-        </h2>
-        <ProfileForm />
-      </div>
-
     </div>
-  </main>
+
+    <!-- Préférences -->
+    <div class="card p-6 md:p-8">
+      <div class="mb-5 flex items-baseline justify-between border-b border-border pb-4">
+        <h2 class="display text-2xl text-text-main md:text-3xl">
+          Préférences
+        </h2>
+        <p class="text-xs uppercase tracking-eyebrow text-text-soft">
+          Personnalisation
+        </p>
+      </div>
+      <ProfileForm />
+    </div>
+  </div>
 </template>

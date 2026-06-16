@@ -1,21 +1,84 @@
-:root {
-  --color-primary-200: #b3ffcf;
-  --color-primary-300: #66e093;
-  --color-primary-400: #22c55e;
-  --color-primary-500: #1cb454;
-  --color-primary-600: #15803d;
-  --color-primary-700: #166534;
-  --color-primary-800: #14532d;
-  --color-primary-hover: #15803d;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-  --color-background-app: #f8fafc;
-  --color-surface: #ffffff;
-  --color-border: #e2e8f0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  --color-text-main: #0f172a;
-  --color-text-muted: #64748b;
+@layer base {
+  html {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+  body {
+    @apply bg-background-app text-text-main;
+  }
+
+  /* Tabular numbers for any data display (scores, prices, stats) */
+  .font-mono,
+  .tabular {
+    font-feature-settings: "tnum", "lnum";
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* Headings : display font par défaut, mais on garde Manrope pour body */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-main;
+  }
+
+  /* Focus visible accessible (replace browser default) */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-background-app;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-primary-200 text-primary-900;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-background-app;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-strong rounded-md;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-soft;
+  }
+}
+
+@layer components {
+  /* Eyebrow label (petits labels en caps au-dessus des titres) */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-eyebrow text-primary-600;
+  }
+
+  /* Display heading (titres en Bebas Neue) */
+  .display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  /* Card de base */
+  .card {
+    @apply bg-surface rounded-xl border border-border shadow-card;
+  }
+}
+
+@layer utilities {
+  /* Animation subtle hover */
+  .hover-lift {
+    @apply transition-all duration-200 ease-snappy;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    @apply shadow-md;
+  }
 }

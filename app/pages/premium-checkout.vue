@@ -11,13 +11,11 @@ const successMessage = ref('')
 
 await refresh()
 
-// Si déjà Premium, on renvoie vers /premium
 if (status.value.isPremium) {
   await navigateTo('/premium')
 }
 
 onMounted(() => {
-  // ETAPE 3 du tunnel : checkout_start
   track('checkout_start', { product: 'premium_subscription', price_cents: 499 })
 })
 
@@ -26,7 +24,6 @@ async function handleConfirm() {
   errorMessage.value = ''
   try {
     const result = await subscribe()
-    // ETAPE 4 du tunnel : checkout_success
     track('checkout_success', {
       product: 'premium_subscription',
       price_cents: 499,
@@ -38,7 +35,7 @@ async function handleConfirm() {
   }
   catch (error: unknown) {
     const err = error as { statusMessage?: string }
-    errorMessage.value = err?.statusMessage || 'Une erreur est survenue lors de l\'abonnement'
+    errorMessage.value = err?.statusMessage || "Une erreur est survenue lors de l'abonnement."
   }
   finally {
     loading.value = false
@@ -47,58 +44,88 @@ async function handleConfirm() {
 </script>
 
 <template>
-  <main class="flex justify-center p-4 pt-16 md:pt-24">
-    <div class="w-full max-w-xl rounded-xl border-2 border-border bg-surface p-8 md:p-10">
-      <h1 class="mb-2 text-center text-3xl font-bold text-text-main md:text-4xl">
-        Récapitulatif
-      </h1>
-      <p class="mb-8 text-center text-sm text-text-muted md:text-base">
-        Vérifiez les détails avant de confirmer.
-      </p>
+  <main class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+    <div class="w-full max-w-xl">
+      <div class="mb-8 text-center">
+        <p class="eyebrow mb-3">Étape finale</p>
+        <h1 class="display text-5xl text-text-main md:text-6xl">
+          Récapitulatif
+        </h1>
+        <p class="mt-2 text-text-muted">
+          Vérifiez votre commande avant de confirmer.
+        </p>
+      </div>
 
-      <div class="mb-6 rounded-xl border-2 border-border bg-background-app p-6">
-        <div class="mb-4 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <Icon name="mdi:star" size="2rem" class="text-primary-500" />
+      <div class="card overflow-hidden">
+        <!-- Ligne article -->
+        <div class="flex items-center justify-between gap-3 p-6">
+          <div class="flex items-center gap-4">
+            <div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-accent-400 to-accent-500 text-white shadow-sm">
+              <Icon name="lucide:crown" size="1.5rem" />
+            </div>
             <div>
               <p class="font-semibold text-text-main">Abonnement Premium</p>
-              <p class="text-xs text-text-muted">30 jours d'accès complet</p>
+              <p class="text-sm text-text-muted">30 jours d'accès complet</p>
             </div>
           </div>
-          <span class="text-xl font-bold text-text-main">4,99 €</span>
+          <span class="font-mono tabular text-xl font-semibold text-text-main">
+            4,99 €
+          </span>
         </div>
 
-        <div class="border-t-2 border-border pt-4 flex items-center justify-between">
-          <span class="text-text-muted">Total à payer</span>
-          <span class="text-2xl font-bold text-primary-500">4,99 €</span>
+        <!-- Total -->
+        <div class="flex items-center justify-between border-t border-border bg-surface-muted px-6 py-4">
+          <span class="text-sm font-semibold uppercase tracking-wider text-text-muted">
+            Total à payer
+          </span>
+          <span class="display font-mono tabular text-3xl text-primary-600">
+            4,99 €
+          </span>
         </div>
       </div>
 
-      <div v-if="successMessage" class="mb-4 rounded-xl border-2 border-success bg-surface p-4 text-center">
-        <Icon name="mdi:check-circle" size="2rem" class="mx-auto mb-2 text-success" />
-        <p class="font-semibold text-text-main">{{ successMessage }}</p>
-      </div>
-
-      <button
-        v-if="!successMessage"
-        :disabled="loading"
-        data-umami-event="checkout_success"
-        class="w-full rounded-xl bg-primary-500 p-4 text-lg font-semibold text-white transition-all hover:bg-primary-hover hover:scale-105 active:bg-primary-700 disabled:opacity-50 disabled:hover:scale-100 md:p-5 md:text-xl"
-        @click="handleConfirm"
+      <!-- Success -->
+      <div
+        v-if="successMessage"
+        class="mt-6 flex items-start gap-3 rounded-xl border border-primary-300 bg-primary-50 p-4"
       >
-        <span v-if="loading">Traitement en cours…</span>
-        <span v-else>Confirmer et payer</span>
-      </button>
+        <Icon name="lucide:check-circle-2" size="1.25rem" class="mt-0.5 shrink-0 text-primary-600" />
+        <div>
+          <p class="font-semibold text-primary-700">Paiement réussi !</p>
+          <p class="text-sm text-primary-600">{{ successMessage }}</p>
+        </div>
+      </div>
 
-      <p v-if="errorMessage" class="mt-4 text-center text-base text-danger">
-        {{ errorMessage }}
-      </p>
+      <!-- Error -->
+      <div
+        v-if="errorMessage"
+        class="mt-6 flex items-start gap-2 rounded-lg bg-danger-bg p-3 text-sm text-danger"
+      >
+        <Icon name="lucide:alert-circle" size="1rem" class="mt-0.5 shrink-0" />
+        <p>{{ errorMessage }}</p>
+      </div>
 
-      <div class="mt-6 text-center">
-        <NuxtLink to="/premium" class="text-sm text-text-muted underline hover:text-primary-500">
+      <!-- Actions -->
+      <div v-if="!successMessage" class="mt-6 flex flex-col-reverse gap-3 md:flex-row">
+        <NuxtLink
+          to="/premium"
+          class="flex-1 rounded-xl border border-border bg-surface px-6 py-3.5 text-center text-base font-semibold text-text-main transition-colors hover:bg-surface-muted"
+        >
           Annuler
         </NuxtLink>
+        <button
+          :disabled="loading"
+          data-umami-event="checkout_success"
+          class="flex-1 rounded-xl bg-primary-500 px-6 py-3.5 text-base font-semibold text-white shadow-md transition-colors hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50"
+          @click="handleConfirm"
+        >
+          {{ loading ? 'Traitement…' : 'Confirmer et payer' }}
+        </button>
       </div>
+
+      <p class="mt-6 text-center text-xs text-text-soft">
+        Paiement simulé pour la démonstration. Aucun débit ne sera effectué.
+      </p>
     </div>
   </main>
 </template>

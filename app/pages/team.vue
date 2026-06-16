@@ -13,7 +13,6 @@ const route = useRoute();
 const id = route.query.id;
 
 const { data, pending, error } = await useFetch<TeamVenue>('/api/team?id=' + id);
-console.log(data.value);
 if (data.value) {
   team.value = data.value;
 }
@@ -22,26 +21,22 @@ errors.value = error.value ?? null;
 </script>
 
 <template>
-  <main>
+  <div class="mx-auto max-w-5xl px-4 py-8 md:px-8 md:py-12">
     <AppLoader v-if="isLoading" />
-    <div v-else>
-      <h1 class="m-3 text-3xl font-bold text-text-muted md:m-6 md:text-5xl">
-        {{ team?.team.name }}
-      </h1>
 
-      <p
-        v-if="errors"
-        class="text-lg text-danger"
-      >
-        Une erreur est survenue lors de l'appel API.
-      </p>
-
-      <ul
-        v-else
-        class="mt-8 flex w-full flex-col items-center justify-center"
-      >
-        <TeamCard :team="team?.team" />
-      </ul>
+    <div
+      v-else-if="errors"
+      class="card flex items-start gap-3 p-6"
+    >
+      <Icon name="lucide:alert-triangle" size="1.5rem" class="shrink-0 text-danger" />
+      <div>
+        <h2 class="font-semibold text-text-main">Équipe introuvable</h2>
+        <p class="text-sm text-text-muted">
+          Une erreur est survenue lors du chargement. Vérifiez l'identifiant et réessayez.
+        </p>
+      </div>
     </div>
-  </main>
+
+    <TeamCard v-else-if="team" :team="team.team" />
+  </div>
 </template>
