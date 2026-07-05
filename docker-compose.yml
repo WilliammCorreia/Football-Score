@@ -1,7 +1,4 @@
 services:
-  # =====================
-  # Reverse Proxy (Nginx)
-  # =====================
   nginx:
     image: nginx:1.27-alpine
     ports:
@@ -12,9 +9,6 @@ services:
       - web
     restart: unless-stopped
 
-  # =====================
-  # Application Web (Nuxt.js — production)
-  # =====================
   web:
     build:
       context: .
@@ -29,15 +23,12 @@ services:
     env_file: ".env"
     restart: unless-stopped
 
-  # =====================
-  # GlitchTip Stack
-  # =====================
   glitchtip-db:
     image: postgres:15-alpine
     environment:
+      POSTGRES_DB: glitchtip_db
       POSTGRES_USER: glitchtip
       POSTGRES_PASSWORD: ${GLITCHTIP_DB_PASSWORD:-glitchtip_password}
-      POSTGRES_DB: glitchtip_db
     volumes:
       - glitchtip_pg_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -72,8 +63,8 @@ services:
         condition: service_healthy
       glitchtip-redis:
         condition: service_started
-      glitchtip-migrate:
-        condition: service_completed_successfully
+      # glitchtip-migrate:
+      #   condition: service_completed_successfully
     restart: unless-stopped
 
   glitchtip-worker:

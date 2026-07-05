@@ -130,9 +130,7 @@ async function simulerPaiement() {
       </div>
 
       <!-- Simulation de paiement défaillant — validation GlitchTip (Partie 2) -->
-      <div v-if="errors"> il y a une errreur test</div>
       <div
-        v-if="!errors"
         class="mt-8 rounded-xl border-2 border-dashed border-border p-4 md:p-6"
       >
         <h2 class="mb-1 text-lg font-semibold text-text-muted">

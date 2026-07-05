@@ -16,6 +16,7 @@ RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build; \
     code=$?; \
     rm -rf .data/; \
     [ "$code" -eq 0 ] || [ "$code" -eq 99 ]
+RUN npm run build
 
 FROM node:24.14.1-alpine3.23 AS prod
 WORKDIR /app
