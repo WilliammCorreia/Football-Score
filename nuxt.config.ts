@@ -19,10 +19,18 @@ export default defineNuxtConfig({
       applyMigrationsDuringDev: false,
     },
   },
+  devServer: {
+    host: '0.0.0.0',
+  },
   devtools: { enabled: true },
   css: ['@/assets/css/tailwind.css'],
   runtimeConfig: {
     apiSportsKey: process.env.API_FOOTBALL_KEY || 'XxXxXxXxXxXxXxXxXxXxXxXx',
+    public: {
+      umamiWebsiteId: process.env.NUXT_PUBLIC_UMAMI_WEBSITE_ID || '',
+      umamiHost: process.env.NUXT_PUBLIC_UMAMI_HOST || 'http://localhost:3001',
+      glitchtipDsn: process.env.NUXT_PUBLIC_GLITCHTIP_DSN || '',
+    },
   },
   compatibilityDate: '2025-07-15',
   eslint: {

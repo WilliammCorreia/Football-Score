@@ -11,10 +11,15 @@ const isLoading = ref(true);
 const errors = ref<Error | null>(null);
 const route = useRoute();
 const id = route.query.id;
+const { track } = useUmami();
 
 const { data, pending, error } = await useFetch<TeamVenue>('/api/team?id=' + id);
 if (data.value) {
   team.value = data.value;
+  track('view_product', {
+    team_id: id,
+    team_name: data.value.team?.name,
+  });
 }
 isLoading.value = pending.value;
 errors.value = error.value ?? null;
@@ -28,15 +33,24 @@ errors.value = error.value ?? null;
       v-else-if="errors"
       class="card flex items-start gap-3 p-6"
     >
-      <Icon name="lucide:alert-triangle" size="1.5rem" class="shrink-0 text-danger" />
+      <Icon
+        name="lucide:alert-triangle"
+        size="1.5rem"
+        class="shrink-0 text-danger"
+      />
       <div>
-        <h2 class="font-semibold text-text-main">Équipe introuvable</h2>
+        <h2 class="font-semibold text-text-main">
+          Équipe introuvable
+        </h2>
         <p class="text-sm text-text-muted">
           Une erreur est survenue lors du chargement. Vérifiez l'identifiant et réessayez.
         </p>
       </div>
     </div>
 
-    <TeamCard v-else-if="team" :team="team.team" />
+    <TeamCard
+      v-else-if="team"
+      :team="team.team"
+    />
   </div>
 </template>
