@@ -13,8 +13,9 @@ export default defineNuxtConfig({
     db: {
       dialect: 'postgresql',
       driver: 'postgres-js',
-      // En conteneur, on évite d'appliquer les migrations au build (la BDD n'est pas
-      // encore prête à ce moment) et au dev (on lance manuellement avec npx).
+      // En conteneur, les migrations ne sont appliquées ni au build (la BDD n'est
+      // pas prête) ni au dev. C'est le service `app-migrate` du docker-compose qui
+      // les applique via `npx nuxt db migrate` avant le démarrage de `web`.
       applyMigrationsDuringBuild: false,
       applyMigrationsDuringDev: false,
     },

@@ -12,16 +12,70 @@ services:
   web:
     build:
       context: .
+      # Serveur Nuxt prébuild : il démarre vite et écoute immédiatement sur :3000
+      # (contrairement à la cible "dev" qui doit d'abord recompiler).
       target: prod
     expose:
       - "3000"
+    env_file: ".env"
     environment:
       HOST: "0.0.0.0"
       PORT: "3000"
-    volumes:
-      - app_data:/app/.data
-    env_file: ".env"
+      # IMPORTANT : cette valeur ÉCRASE le DATABASE_URL hérité de .env (qui, lui,
+      # pointe vers la base de GlitchTip). Sans cet override, l'app Nuxt écrirait
+      # dans la base de GlitchTip — où la table `users` n'existe pas — ce qui
+      # provoquait l'erreur 500 à l'inscription.
+      DATABASE_URL: "postgres://${APP_DB_USER:-football}:${APP_DB_PASSWORD:-football_password}@app-db:5432/${APP_DB_NAME:-football_db}"
+      # En build prod, Nuxt n'injecte dans runtimeConfig QUE les variables
+      # préfixées NUXT_ au runtime. On mappe donc la clé api-football (.env :
+      # API_FOOTBALL_KEY) vers le nom attendu par runtimeConfig.apiSportsKey,
+      # soit NUXT_API_SPORTS_KEY. Sans ça, l'app garde la valeur bidon figée au
+      # build et l'API renvoie 0 match.
+      NUXT_API_SPORTS_KEY: "${API_FOOTBALL_KEY:?API_FOOTBALL_KEY manquant dans .env}"
+    depends_on:
+      app-db:
+        condition: service_healthy
+      # On attend que les migrations soient appliquées avant de démarrer l'app.
+      app-migrate:
+        condition: service_completed_successfully
     restart: unless-stopped
+
+  # =====================
+  # Migrations de la base de l'app (conteneur "one-shot" : applique puis s'arrête)
+  # Utilise la cible "dev" car elle contient le CLI Nuxt (`nuxt db migrate`).
+  # =====================
+  app-migrate:
+    build:
+      context: .
+      target: dev
+    env_file: ".env"
+    environment:
+      # Même base que `web` : les migrations doivent être appliquées sur app-db.
+      DATABASE_URL: "postgres://${APP_DB_USER:-football}:${APP_DB_PASSWORD:-football_password}@app-db:5432/${APP_DB_NAME:-football_db}"
+    command: sh -c "npx nuxt db migrate"
+    depends_on:
+      app-db:
+        condition: service_healthy
+    restart: "no"
+
+  # =====================
+  # Base de données de l'application Nuxt
+  # (distincte de celles de GlitchTip et d'Umami)
+  # =====================
+  app-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${APP_DB_USER:-football}
+      POSTGRES_PASSWORD: ${APP_DB_PASSWORD:-football_password}
+      POSTGRES_DB: ${APP_DB_NAME:-football_db}
+    volumes:
+      - app_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${APP_DB_USER:-football} -d ${APP_DB_NAME:-football_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   glitchtip-db:
     image: postgres:15-alpine
@@ -114,7 +168,7 @@ services:
       retries: 5
 
 volumes:
-  app_data:
+  app_db_data:
   glitchtip_pg_data:
   glitchtip_redis_data:
   umami_pg_data:

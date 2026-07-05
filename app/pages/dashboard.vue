@@ -28,7 +28,7 @@ track('checkout_start', {
 // Mesure de performance : heure de début de chargement
 const loadStart = import.meta.client ? performance.now() : 0;
 
-const { data, pending, error } = await useFetch<{ team: number; matches: Fixture[] }[]>('/api/favourites', { method: 'POST', body:
+const { data, pending, error } = await useFetch<{ team: number; matches: Fixture[] }[]>('/api/dashboard-matches', { method: 'POST', body:
     { teams: favourites.listIds() },
 });
 
@@ -88,12 +88,6 @@ async function simulerPaiement() {
 
     <AppLoader v-if="isLoading" />
 
-    <div
-      v-else-if="fixtures.length === 0"
-      class="mt-8 text-center text-text-muted"
-    >
-      <p>Aucune équipe favorite pour le moment !</p>
-    </div>
     <div
       v-else-if="errors"
       class="card flex items-start gap-3 p-6"
