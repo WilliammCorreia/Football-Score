@@ -3,7 +3,7 @@ const { user, clear: clearSession, loggedIn } = useUserSession();
 const route = useRoute();
 
 const emit = defineEmits<{
-  'navigate': []
+  navigate: [];
 }>();
 
 async function logout() {
@@ -46,10 +46,18 @@ function handleNavigate() {
 <template>
   <nav class="flex h-full flex-col overflow-y-auto">
     <!-- Section principale -->
-    <div v-if="loggedIn" class="flex-1 px-3 py-6">
-      <p class="eyebrow mb-3 px-3">Navigation</p>
+    <div
+      v-if="loggedIn"
+      class="flex-1 px-3 py-6"
+    >
+      <p class="eyebrow mb-3 px-3">
+        Navigation
+      </p>
       <ul class="space-y-1">
-        <li v-for="item in mainNav" :key="item.to">
+        <li
+          v-for="item in mainNav"
+          :key="item.to"
+        >
           <NuxtLink
             :to="item.to"
             class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-150 ease-snappy"
@@ -68,9 +76,14 @@ function handleNavigate() {
         </li>
       </ul>
 
-      <p class="eyebrow mb-3 mt-8 px-3">Compte</p>
+      <p class="eyebrow mb-3 mt-8 px-3">
+        Compte
+      </p>
       <ul class="space-y-1">
-        <li v-for="item in accountNav" :key="item.to">
+        <li
+          v-for="item in accountNav"
+          :key="item.to"
+        >
           <NuxtLink
             :to="item.to"
             class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-150 ease-snappy"
@@ -97,10 +110,18 @@ function handleNavigate() {
     </div>
 
     <!-- Section invité (non connecté) -->
-    <div v-else class="flex-1 px-3 py-6">
-      <p class="eyebrow mb-3 px-3">Bienvenue</p>
+    <div
+      v-else
+      class="flex-1 px-3 py-6"
+    >
+      <p class="eyebrow mb-3 px-3">
+        Bienvenue
+      </p>
       <ul class="space-y-1">
-        <li v-for="item in guestNav" :key="item.to">
+        <li
+          v-for="item in guestNav"
+          :key="item.to"
+        >
           <NuxtLink
             :to="item.to"
             class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors duration-150 ease-snappy"
@@ -109,7 +130,10 @@ function handleNavigate() {
               : 'text-text-muted hover:bg-surface-muted hover:text-text-main'"
             @click="handleNavigate"
           >
-            <Icon :name="item.icon" size="1.25rem" />
+            <Icon
+              :name="item.icon"
+              size="1.25rem"
+            />
             {{ item.label }}
           </NuxtLink>
         </li>
@@ -121,14 +145,17 @@ function handleNavigate() {
       v-if="loggedIn && user"
       class="border-t border-border p-3"
     >
-      <div class="flex items-center gap-3 rounded-lg px-2 py-2">
+      <div class="flex items-center gap-3 rounded-lg p-2">
         <img
           v-if="user.avatar"
           :src="user.avatar"
           :alt="user.name"
           class="size-9 rounded-full border border-border object-cover"
         >
-        <div v-else class="flex size-9 items-center justify-center rounded-full bg-primary-100 text-sm font-semibold text-primary-700">
+        <div
+          v-else
+          class="flex size-9 items-center justify-center rounded-full bg-primary-100 text-sm font-semibold text-primary-700"
+        >
           {{ user.name?.charAt(0).toUpperCase() }}
         </div>
         <div class="min-w-0 flex-1">
@@ -145,7 +172,10 @@ function handleNavigate() {
         class="mt-2 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-text-muted transition-colors duration-150 hover:bg-danger-bg hover:text-danger"
         @click="logout"
       >
-        <Icon name="lucide:log-out" size="1.25rem" />
+        <Icon
+          name="lucide:log-out"
+          size="1.25rem"
+        />
         Déconnexion
       </button>
     </div>

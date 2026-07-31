@@ -15,11 +15,11 @@ defineProps<{
       size="md"
     />
 
-    <div class="flex-1 min-w-0">
+    <div class="min-w-0 flex-1">
       <div class="flex items-start justify-between gap-3">
         <NuxtLink
           :to="{ path: '/team', query: { id: team.team.id } }"
-          class="block flex-1 min-w-0"
+          class="block min-w-0 flex-1"
         >
           <h3 class="truncate text-lg font-bold text-text-main transition-colors group-hover:text-primary-600 md:text-xl">
             {{ team.team.name }}
@@ -30,12 +30,24 @@ defineProps<{
 
       <dl class="mt-2 space-y-1">
         <div class="flex items-center gap-2 text-sm text-text-muted">
-          <Icon name="lucide:map-pin" size="0.875rem" class="shrink-0" />
-          <dd class="truncate">{{ team.venue.city }}, {{ team.team.country }}</dd>
+          <Icon
+            name="lucide:map-pin"
+            size="0.875rem"
+            class="shrink-0"
+          />
+          <dd class="truncate">
+            {{ team.venue.city }}, {{ team.team.country }}
+          </dd>
         </div>
         <div class="flex items-center gap-2 text-sm text-text-muted">
-          <Icon name="lucide:building" size="0.875rem" class="shrink-0" />
-          <dd class="truncate">{{ team.venue.name }}</dd>
+          <Icon
+            name="lucide:building"
+            size="0.875rem"
+            class="shrink-0"
+          />
+          <dd class="truncate">
+            {{ team.venue.name }}
+          </dd>
         </div>
       </dl>
     </div>

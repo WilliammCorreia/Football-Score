@@ -21,40 +21,51 @@ defineProps<{
             />
           </div>
           <div class="flex-1 text-center md:text-left">
-            <p class="eyebrow !text-primary-100 mb-2">
+            <p class="eyebrow mb-2 !text-primary-100">
               {{ team.country || 'Équipe' }} · Fondée en {{ team.founded || 'N/A' }}
             </p>
             <h1 class="display text-5xl leading-none text-white md:text-7xl">
               {{ team.name }}
             </h1>
           </div>
-          <FavouriteButton :team="team" class="!bg-white/10 !text-white hover:!bg-white/20" />
+          <FavouriteButton
+            :team="team"
+            class="!bg-white/10 !text-white hover:!bg-white/20"
+          />
         </div>
       </div>
 
       <!-- Stats grid -->
       <dl class="grid grid-cols-2 divide-x divide-border md:grid-cols-4">
-        <div class="px-4 py-4 text-center md:py-6">
-          <dt class="eyebrow mb-1">Pays</dt>
-          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+        <div class="p-4 text-center md:py-6">
+          <dt class="eyebrow mb-1">
+            Pays
+          </dt>
+          <dd class="tabular font-mono text-lg font-semibold text-text-main md:text-xl">
             {{ team.country || '—' }}
           </dd>
         </div>
-        <div class="px-4 py-4 text-center md:py-6">
-          <dt class="eyebrow mb-1">Fondée</dt>
-          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+        <div class="p-4 text-center md:py-6">
+          <dt class="eyebrow mb-1">
+            Fondée
+          </dt>
+          <dd class="tabular font-mono text-lg font-semibold text-text-main md:text-xl">
             {{ team.founded || '—' }}
           </dd>
         </div>
-        <div class="border-t border-border px-4 py-4 text-center md:border-t-0 md:py-6">
-          <dt class="eyebrow mb-1">Code</dt>
-          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+        <div class="border-t border-border p-4 text-center md:border-t-0 md:py-6">
+          <dt class="eyebrow mb-1">
+            Code
+          </dt>
+          <dd class="tabular font-mono text-lg font-semibold text-text-main md:text-xl">
             {{ team.code || '—' }}
           </dd>
         </div>
-        <div class="border-t border-border px-4 py-4 text-center md:border-t-0 md:py-6">
-          <dt class="eyebrow mb-1">ID</dt>
-          <dd class="font-mono tabular text-lg font-semibold text-text-main md:text-xl">
+        <div class="border-t border-border p-4 text-center md:border-t-0 md:py-6">
+          <dt class="eyebrow mb-1">
+            ID
+          </dt>
+          <dd class="tabular font-mono text-lg font-semibold text-text-main md:text-xl">
             #{{ team.id }}
           </dd>
         </div>

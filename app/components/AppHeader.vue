@@ -2,7 +2,7 @@
 import { useIsDesktop } from '~/composables/useIsDesktop';
 
 const emit = defineEmits<{
-  'toggle-sidebar': []
+  'toggle-sidebar': [];
 }>();
 
 const useIsDesktopValue = useIsDesktop();
@@ -26,10 +26,16 @@ const IsDesktop = computed(() => useIsDesktopValue.value);
           />
         </button>
 
-        <NuxtLink to="/" class="flex items-center gap-2.5">
+        <NuxtLink
+          to="/"
+          class="flex items-center gap-2.5"
+        >
           <!-- Logo : ballon stylisé en SVG -->
           <div class="flex size-9 items-center justify-center rounded-lg bg-primary-500 text-white">
-            <Icon name="mdi:soccer" size="1.5rem" />
+            <Icon
+              name="mdi:soccer"
+              size="1.5rem"
+            />
           </div>
           <div class="display text-2xl leading-none text-text-main md:text-3xl">
             Football<span class="text-primary-500">Score</span>

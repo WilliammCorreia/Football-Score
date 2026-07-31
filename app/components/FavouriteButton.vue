@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { useFavouritesStore } from '~/store/favourites';
 
 const favourites = useFavouritesStore();
-const { track } = useUmami();
+const { track } = useTracking();
 const props = defineProps<{
   team: Team;
   compact?: boolean;
@@ -16,7 +16,8 @@ function handleClick() {
   const wasInFavourites = isInFavourites.value;
   favourites.addTeam(props.team);
   if (!wasInFavourites) {
-    track('add_to_cart', {
+    // Event d'engagement, hors tunnel d'achat (le tunnel suit l'abonnement Premium)
+    track('add_favourite', {
       team_id: props.team.id,
       team_name: props.team.name,
     });

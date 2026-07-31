@@ -3,7 +3,11 @@ import { defineNuxtPlugin, useRuntimeConfig } from 'nuxt/app';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
-  const dsn = (config.public.glitchtipDsn as string) || 'http://edcf6cc0572749c9a8d15606a61ea86e@localhost/1';
+  const dsn = config.public.glitchtipDsn as string;
+
+  // Sans DSN configuré (NUXT_PUBLIC_GLITCHTIP_DSN), on désactive la télémétrie
+  // plutôt que d'envoyer vers une cible invalide.
+  if (!dsn) return;
 
   Sentry.init({
     app: nuxtApp.vueApp,

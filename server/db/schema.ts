@@ -1,5 +1,5 @@
-import { pgTable, text, serial, timestamp, integer } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm'
+import { pgTable, text, serial, timestamp, integer } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
 
 // =========================
 // USERS
@@ -11,7 +11,7 @@ export const users = pgTable('users', {
   password: text().notNull(),
   avatar: text().notNull(),
   createdAt: timestamp().notNull().defaultNow(),
-})
+});
 
 // =========================
 // SUBSCRIPTIONS
@@ -24,7 +24,7 @@ export const subscriptions = pgTable('subscriptions', {
   startedAt: timestamp().notNull().defaultNow(),
   expiresAt: timestamp().notNull(),
   createdAt: timestamp().notNull().defaultNow(),
-})
+});
 
 // =========================
 // PAYMENTS (paiement simulé pour abonnement Premium)
@@ -38,7 +38,7 @@ export const payments = pgTable('payments', {
   amount: integer().notNull(),
   status: text().notNull(),
   createdAt: timestamp().notNull().defaultNow(),
-})
+});
 
 // =========================
 // FAVOURITES (équipes favorites de l'utilisateur)
@@ -50,7 +50,7 @@ export const favourites = pgTable('favourites', {
   teamName: text().notNull(),
   teamLogo: text().notNull(),
   createdAt: timestamp().notNull().defaultNow(),
-})
+});
 
 // =========================
 // NOTIFICATIONS (alertes avant match - Premium)
@@ -63,7 +63,7 @@ export const notifications = pgTable('notifications', {
   matchDate: timestamp().notNull(),
   sentAt: timestamp(),
   createdAt: timestamp().notNull().defaultNow(),
-})
+});
 
 // =========================
 // RELATIONS
@@ -73,22 +73,22 @@ export const usersRelations = relations(users, ({ many }) => ({
   payments: many(payments),
   favourites: many(favourites),
   notifications: many(notifications),
-}))
+}));
 
 export const subscriptionsRelations = relations(subscriptions, ({ one, many }) => ({
   user: one(users, { fields: [subscriptions.userId], references: [users.id] }),
   payments: many(payments),
-}))
+}));
 
 export const paymentsRelations = relations(payments, ({ one }) => ({
   user: one(users, { fields: [payments.userId], references: [users.id] }),
   subscription: one(subscriptions, { fields: [payments.subscriptionId], references: [subscriptions.id] }),
-}))
+}));
 
 export const favouritesRelations = relations(favourites, ({ one }) => ({
   user: one(users, { fields: [favourites.userId], references: [users.id] }),
-}))
+}));
 
 export const notificationsRelations = relations(notifications, ({ one }) => ({
   user: one(users, { fields: [notifications.userId], references: [users.id] }),
-}))
+}));

@@ -1,5 +1,4 @@
-import { db, schema } from '@nuxthub/db'
-import { subscriptions, payments } from 'hub:db:schema';
+import { db, schema } from '@nuxthub/db';
 import { getUserSubscription } from '~~/server/utils/subscription';
 
 const PREMIUM_PRICE_CENTS = 499;

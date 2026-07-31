@@ -33,7 +33,9 @@ async function login() {
   <main class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
     <div class="w-full max-w-md">
       <div class="mb-8 text-center">
-        <p class="eyebrow mb-3">Bienvenue</p>
+        <p class="eyebrow mb-3">
+          Bienvenue
+        </p>
         <h1 class="display text-6xl text-text-main md:text-7xl">
           Connexion
         </h1>
@@ -43,10 +45,16 @@ async function login() {
       </div>
 
       <div class="card p-6 md:p-8">
-        <form class="space-y-5" @submit.prevent="login">
+        <form
+          class="space-y-5"
+          @submit.prevent="login"
+        >
           <!-- Email -->
           <div>
-            <label for="email" class="mb-1.5 block text-sm font-semibold text-text-main">
+            <label
+              for="email"
+              class="mb-1.5 block text-sm font-semibold text-text-main"
+            >
               Email
             </label>
             <input
@@ -55,13 +63,16 @@ async function login() {
               type="email"
               placeholder="vous@exemple.com"
               required
-              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
             >
           </div>
 
           <!-- Password -->
           <div>
-            <label for="password" class="mb-1.5 block text-sm font-semibold text-text-main">
+            <label
+              for="password"
+              class="mb-1.5 block text-sm font-semibold text-text-main"
+            >
               Mot de passe
             </label>
             <input
@@ -70,7 +81,7 @@ async function login() {
               type="password"
               placeholder="••••••••"
               required
-              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
             >
           </div>
 
@@ -79,7 +90,11 @@ async function login() {
             v-if="errorMessage"
             class="flex items-start gap-2 rounded-lg bg-danger-bg p-3 text-sm text-danger"
           >
-            <Icon name="lucide:alert-circle" size="1rem" class="mt-0.5 shrink-0" />
+            <Icon
+              name="lucide:alert-circle"
+              size="1rem"
+              class="mt-0.5 shrink-0"
+            />
             <p>{{ errorMessage }}</p>
           </div>
 
@@ -95,7 +110,10 @@ async function login() {
 
         <p class="mt-6 text-center text-sm text-text-muted">
           Pas encore de compte ?
-          <NuxtLink to="/register" class="font-semibold text-primary-600 hover:text-primary-hover">
+          <NuxtLink
+            to="/register"
+            class="font-semibold text-primary-600 hover:text-primary-hover"
+          >
             Créer un compte
           </NuxtLink>
         </p>

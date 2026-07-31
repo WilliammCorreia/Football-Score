@@ -37,7 +37,9 @@ async function register() {
   <main class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-8">
     <div class="w-full max-w-md">
       <div class="mb-6 text-center">
-        <p class="eyebrow mb-3">Rejoignez-nous</p>
+        <p class="eyebrow mb-3">
+          Rejoignez-nous
+        </p>
         <h1 class="display text-5xl text-text-main md:text-6xl">
           Créer un compte
         </h1>
@@ -47,10 +49,16 @@ async function register() {
       </div>
 
       <div class="card p-6 md:p-8">
-        <form class="space-y-4" @submit.prevent="register">
+        <form
+          class="space-y-4"
+          @submit.prevent="register"
+        >
           <!-- Avatar (URL) avec aperçu -->
           <div>
-            <label for="avatar" class="mb-1.5 block text-sm font-semibold text-text-main">
+            <label
+              for="avatar"
+              class="mb-1.5 block text-sm font-semibold text-text-main"
+            >
               Avatar (URL)
               <span class="font-normal text-text-soft">— optionnel</span>
             </label>
@@ -67,7 +75,10 @@ async function register() {
                   v-else
                   class="flex size-12 items-center justify-center rounded-full border border-dashed border-border bg-surface-muted text-text-soft"
                 >
-                  <Icon name="lucide:user" size="1.25rem" />
+                  <Icon
+                    name="lucide:user"
+                    size="1.25rem"
+                  />
                 </div>
               </div>
               <input
@@ -75,14 +86,17 @@ async function register() {
                 v-model="credentials.avatar"
                 type="url"
                 placeholder="https://…"
-                class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
               >
             </div>
           </div>
 
           <!-- Nom -->
           <div>
-            <label for="name" class="mb-1.5 block text-sm font-semibold text-text-main">
+            <label
+              for="name"
+              class="mb-1.5 block text-sm font-semibold text-text-main"
+            >
               Nom complet
             </label>
             <input
@@ -91,13 +105,16 @@ async function register() {
               type="text"
               placeholder="Jean Dupont"
               required
-              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
             >
           </div>
 
           <!-- Email -->
           <div>
-            <label for="email" class="mb-1.5 block text-sm font-semibold text-text-main">
+            <label
+              for="email"
+              class="mb-1.5 block text-sm font-semibold text-text-main"
+            >
               Email
             </label>
             <input
@@ -106,13 +123,16 @@ async function register() {
               type="email"
               placeholder="vous@exemple.com"
               required
-              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
             >
           </div>
 
           <!-- Password -->
           <div>
-            <label for="password" class="mb-1.5 block text-sm font-semibold text-text-main">
+            <label
+              for="password"
+              class="mb-1.5 block text-sm font-semibold text-text-main"
+            >
               Mot de passe
             </label>
             <input
@@ -121,7 +141,7 @@ async function register() {
               type="password"
               placeholder="••••••••"
               required
-              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
             >
           </div>
 
@@ -130,7 +150,11 @@ async function register() {
             v-if="errorMessage"
             class="flex items-start gap-2 rounded-lg bg-danger-bg p-3 text-sm text-danger"
           >
-            <Icon name="lucide:alert-circle" size="1rem" class="mt-0.5 shrink-0" />
+            <Icon
+              name="lucide:alert-circle"
+              size="1rem"
+              class="mt-0.5 shrink-0"
+            />
             <p>{{ errorMessage }}</p>
           </div>
 
@@ -146,7 +170,10 @@ async function register() {
 
         <p class="mt-6 text-center text-sm text-text-muted">
           Déjà un compte ?
-          <NuxtLink to="/login" class="font-semibold text-primary-600 hover:text-primary-hover">
+          <NuxtLink
+            to="/login"
+            class="font-semibold text-primary-600 hover:text-primary-hover"
+          >
             Se connecter
           </NuxtLink>
         </p>

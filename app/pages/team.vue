@@ -11,12 +11,13 @@ const isLoading = ref(true);
 const errors = ref<Error | null>(null);
 const route = useRoute();
 const id = route.query.id;
-const { track } = useUmami();
+const { track } = useTracking();
 
 const { data, pending, error } = await useFetch<TeamVenue>('/api/team?id=' + id);
 if (data.value) {
   team.value = data.value;
-  track('view_product', {
+  // Event d'engagement, hors tunnel d'achat (le tunnel suit l'abonnement Premium)
+  track('view_team', {
     team_id: id,
     team_name: data.value.team?.name,
   });

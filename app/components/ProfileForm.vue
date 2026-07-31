@@ -34,7 +34,9 @@ const submit = () => {
   if (!validate()) return;
   user.updateProfile(form.pseudo, form.league);
   success.value = true;
-  setTimeout(() => { success.value = false; }, 3000);
+  setTimeout(() => {
+    success.value = false;
+  }, 3000);
 };
 </script>
 
@@ -42,7 +44,10 @@ const submit = () => {
   <div class="space-y-5">
     <!-- Pseudo -->
     <div>
-      <label for="pseudo" class="mb-1.5 block text-sm font-semibold text-text-main">
+      <label
+        for="pseudo"
+        class="mb-1.5 block text-sm font-semibold text-text-main"
+      >
         Pseudo
       </label>
       <input
@@ -50,17 +55,23 @@ const submit = () => {
         v-model="form.pseudo"
         type="text"
         placeholder="Votre pseudo"
-        class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main placeholder:text-text-soft transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+        class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors placeholder:text-text-soft focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
         :class="errors.pseudo ? 'border-danger' : ''"
       >
-      <p v-if="errors.pseudo" class="mt-1.5 text-sm text-danger">
+      <p
+        v-if="errors.pseudo"
+        class="mt-1.5 text-sm text-danger"
+      >
         {{ errors.pseudo }}
       </p>
     </div>
 
     <!-- Équipe favorite -->
     <div>
-      <label for="league" class="mb-1.5 block text-sm font-semibold text-text-main">
+      <label
+        for="league"
+        class="mb-1.5 block text-sm font-semibold text-text-main"
+      >
         Équipe favorite
       </label>
       <select
@@ -69,7 +80,12 @@ const submit = () => {
         class="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-base text-text-main transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
         :class="errors.league ? 'border-danger' : ''"
       >
-        <option disabled value="">Choisissez une équipe</option>
+        <option
+          disabled
+          value=""
+        >
+          Choisissez une équipe
+        </option>
         <option
           v-for="team in favouriteTeams"
           :key="team.id"
@@ -78,12 +94,21 @@ const submit = () => {
           {{ team.name }}
         </option>
       </select>
-      <p v-if="errors.league" class="mt-1.5 text-sm text-danger">
+      <p
+        v-if="errors.league"
+        class="mt-1.5 text-sm text-danger"
+      >
         {{ errors.league }}
       </p>
-      <p v-if="favouriteTeams.length === 0" class="mt-1.5 text-sm text-text-muted">
+      <p
+        v-if="favouriteTeams.length === 0"
+        class="mt-1.5 text-sm text-text-muted"
+      >
         Aucune équipe favorite. Rendez-vous sur la
-        <NuxtLink to="/search" class="font-semibold text-primary-600 underline hover:text-primary-700">
+        <NuxtLink
+          to="/search"
+          class="font-semibold text-primary-600 underline hover:text-primary-700"
+        >
           page de recherche
         </NuxtLink>
         pour en ajouter.
@@ -104,8 +129,14 @@ const submit = () => {
         leave-active-class="transition-opacity duration-200"
         leave-to-class="opacity-0"
       >
-        <p v-if="success" class="flex items-center gap-1.5 text-sm font-semibold text-primary-600">
-          <Icon name="lucide:check-circle" size="1rem" />
+        <p
+          v-if="success"
+          class="flex items-center gap-1.5 text-sm font-semibold text-primary-600"
+        >
+          <Icon
+            name="lucide:check-circle"
+            size="1rem"
+          />
           Modifications enregistrées
         </p>
       </Transition>

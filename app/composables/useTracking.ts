@@ -1,26 +1,40 @@
 /**
- * Composable de tracking pour le tunnel d'achat.
+ * Composable de tracking : point d'entrée unique vers Umami.
  *
- * Aujourd'hui : il logge juste dans la console (stub).
- * Quand Umami sera installé par le collègue, il suffira de remplacer le corps
- * de track() par un appel à window.umami.track(name, data).
+ * Plan de marquage du tunnel d'achat (abonnement Premium) :
+ *   - view_product     : l'utilisateur consulte la fiche Premium (/premium)
+ *   - add_to_cart      : l'utilisateur clique sur « Je m'abonne »
+ *   - checkout_start   : l'utilisateur arrive sur le récapitulatif (/premium-checkout)
+ *   - checkout_success : paiement réussi (propriété `amount` = montant du panier)
  *
- * Events suivis (tunnel d'achat demandé par le sujet) :
- *   - view_product       : utilisateur consulte la fiche Premium
- *   - add_to_cart        : utilisateur clique "Je m'abonne"
- *   - checkout_start     : utilisateur arrive sur la page récap/paiement
- *   - checkout_success   : paiement réussi, Premium activé
+ * Événements hors tunnel (engagement) :
+ *   - view_team        : consultation d'une fiche équipe
+ *   - add_favourite    : ajout d'une équipe aux favoris
+ *   - checkout_failed  : paiement refusé par la passerelle simulée
+ *
+ * RGPD : ne jamais passer de PII (email, nom, IP…) dans `data`.
  */
 export function useTracking() {
-  function track(eventName: string, data?: Record<string, unknown>) {
-    if (import.meta.client) {
-      console.log('[Tracking]', eventName, data || '');
+  // Le script Umami est chargé en `defer` : au premier rendu, window.umami
+  // peut ne pas encore exister. On retente quelques secondes avant d'abandonner
+  // pour ne pas perdre les événements tirés au montage de la page.
+  function send(eventName: string, data: Record<string, unknown> | undefined, retriesLeft: number) {
+    if (window.umami) {
+      window.umami.track(eventName, data);
+      return;
+    }
+    if (retriesLeft > 0) {
+      setTimeout(() => send(eventName, data, retriesLeft - 1), 300);
+    }
+  }
 
-      // Quand Umami sera prêt, décommenter :
-      // const umami = (window as any).umami;
-      // if (umami && typeof umami.track === 'function') {
-      //   umami.track(eventName, data);
-      // }
+  function track(eventName: string, data?: Record<string, unknown>) {
+    if (!import.meta.client) return;
+
+    send(eventName, data, 10);
+
+    if (import.meta.dev) {
+      console.log('[Tracking]', eventName, data ?? '');
     }
   }
 

@@ -13,10 +13,10 @@ const statusLabel = (short: string): string => {
     '1H': '1ère mi-temps',
     '2H': '2ème mi-temps',
     'ET': 'Prolongation',
-    'P':  'Tirs au but',
-    'PST':'Reporté',
-    'CANC':'Annulé',
-    'SUSP':'Suspendu',
+    'P': 'Tirs au but',
+    'PST': 'Reporté',
+    'CANC': 'Annulé',
+    'SUSP': 'Suspendu',
   };
   return map[short] || short;
 };
@@ -24,7 +24,6 @@ const statusLabel = (short: string): string => {
 
 <template>
   <article class="group relative overflow-hidden rounded-xl border border-border bg-surface shadow-card transition-all duration-200 ease-snappy hover:border-border-strong hover:shadow-md">
-
     <!-- Top bar : status + venue -->
     <header class="flex items-center justify-between border-b border-border bg-surface-muted px-4 py-2.5">
       <div class="flex items-center gap-2">
@@ -70,7 +69,7 @@ const statusLabel = (short: string): string => {
       <div class="flex flex-col items-center justify-center gap-1">
         <div
           v-if="fixture.fixture.status.short !== 'NS'"
-          class="flex items-baseline gap-2 font-mono tabular"
+          class="tabular flex items-baseline gap-2 font-mono"
         >
           <span class="text-4xl font-bold text-text-main md:text-6xl">
             {{ fixture.goals.home ?? 0 }}
@@ -82,7 +81,7 @@ const statusLabel = (short: string): string => {
         </div>
         <div
           v-else
-          class="font-mono tabular text-2xl font-semibold text-text-muted md:text-3xl"
+          class="tabular font-mono text-2xl font-semibold text-text-muted md:text-3xl"
         >
           {{ fixture.fixture.date.split('T')[1]?.slice(0, 5) ?? '--:--' }}
         </div>
@@ -108,11 +107,17 @@ const statusLabel = (short: string): string => {
 
     <!-- Footer : favorites actions -->
     <footer class="flex items-center justify-between border-t border-border bg-surface-muted px-4 py-2">
-      <FavouriteButton :team="fixture.teams.home" :compact="true" />
+      <FavouriteButton
+        :team="fixture.teams.home"
+        :compact="true"
+      />
       <p class="block truncate text-xs text-text-soft sm:hidden">
         {{ fixture.fixture.venue.name }}
       </p>
-      <FavouriteButton :team="fixture.teams.away" :compact="true" />
+      <FavouriteButton
+        :team="fixture.teams.away"
+        :compact="true"
+      />
     </footer>
   </article>
 </template>

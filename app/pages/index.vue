@@ -36,7 +36,10 @@ const today = new Date().toLocaleDateString('fr-FR', {
       <h1 class="display text-5xl text-text-main md:text-7xl">
         Matchs du jour
       </h1>
-      <p v-if="!isLoading && fixtures.length > 0" class="mt-2 font-mono tabular text-sm text-text-muted">
+      <p
+        v-if="!isLoading && fixtures.length > 0"
+        class="tabular mt-2 font-mono text-sm text-text-muted"
+      >
         {{ fixtures.length }} rencontre{{ fixtures.length > 1 ? 's' : '' }} au programme
       </p>
     </header>
@@ -47,9 +50,15 @@ const today = new Date().toLocaleDateString('fr-FR', {
       v-else-if="errors"
       class="card flex items-start gap-3 p-6"
     >
-      <Icon name="lucide:alert-triangle" size="1.5rem" class="shrink-0 text-danger" />
+      <Icon
+        name="lucide:alert-triangle"
+        size="1.5rem"
+        class="shrink-0 text-danger"
+      />
       <div>
-        <h2 class="font-semibold text-text-main">Impossible de charger les matchs</h2>
+        <h2 class="font-semibold text-text-main">
+          Impossible de charger les matchs
+        </h2>
         <p class="text-sm text-text-muted">
           Une erreur est survenue lors de l'appel à l'API. Réessayez dans quelques instants.
         </p>
@@ -60,13 +69,27 @@ const today = new Date().toLocaleDateString('fr-FR', {
       v-else-if="fixtures.length === 0"
       class="card flex flex-col items-center gap-3 p-12 text-center"
     >
-      <Icon name="lucide:calendar-off" size="2.5rem" class="text-text-soft" />
-      <h2 class="text-lg font-semibold text-text-main">Aucun match aujourd'hui</h2>
-      <p class="text-sm text-text-muted">Revenez demain pour de nouvelles rencontres.</p>
+      <Icon
+        name="lucide:calendar-off"
+        size="2.5rem"
+        class="text-text-soft"
+      />
+      <h2 class="text-lg font-semibold text-text-main">
+        Aucun match aujourd'hui
+      </h2>
+      <p class="text-sm text-text-muted">
+        Revenez demain pour de nouvelles rencontres.
+      </p>
     </div>
 
-    <ul v-else class="space-y-4 md:space-y-6">
-      <li v-for="res in fixtures" :key="res.fixture.id">
+    <ul
+      v-else
+      class="space-y-4 md:space-y-6"
+    >
+      <li
+        v-for="res in fixtures"
+        :key="res.fixture.id"
+      >
         <MatchCard :fixture="res" />
       </li>
     </ul>

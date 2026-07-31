@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useHead, useRuntimeConfig } from "nuxt/app";
+import { defineNuxtPlugin, useHead, useRuntimeConfig } from 'nuxt/app';
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
@@ -10,8 +10,8 @@ export default defineNuxtPlugin(() => {
   useHead({
     script: [
       {
-        src: `${host}/script.js`,
-        defer: true,
+        'src': `${host}/script.js`,
+        'defer': true,
         'data-website-id': websiteId,
       },
     ],

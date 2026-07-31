@@ -64,7 +64,9 @@ watch(debouncedQuery, async (newQuery) => {
 <template>
   <div class="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">
     <header class="mb-8">
-      <p class="eyebrow mb-3">Annuaire des clubs</p>
+      <p class="eyebrow mb-3">
+        Annuaire des clubs
+      </p>
       <h1 class="display text-5xl text-text-main md:text-7xl">
         Recherche
       </h1>
@@ -73,30 +75,48 @@ watch(debouncedQuery, async (newQuery) => {
       </p>
     </header>
 
-    <SearchBar v-model="searchQuery" class="mb-8" />
+    <SearchBar
+      v-model="searchQuery"
+      class="mb-8"
+    />
 
     <!-- État 1 : pas encore de query -->
     <div
       v-if="!debouncedQuery"
       class="card flex flex-col items-center gap-3 p-12 text-center"
     >
-      <Icon name="lucide:search" size="2.5rem" class="text-text-soft" />
-      <h2 class="text-lg font-semibold text-text-main">Commencez à taper</h2>
+      <Icon
+        name="lucide:search"
+        size="2.5rem"
+        class="text-text-soft"
+      />
+      <h2 class="text-lg font-semibold text-text-main">
+        Commencez à taper
+      </h2>
       <p class="text-sm text-text-muted">
         Entrez le nom d'une équipe pour voir ses détails et l'ajouter à vos favoris.
       </p>
     </div>
 
     <!-- État 2 : recherche en cours -->
-    <AppLoader v-else-if="isLoading" label="Recherche…" />
+    <AppLoader
+      v-else-if="isLoading"
+      label="Recherche…"
+    />
 
     <!-- État 3 : aucun résultat / erreur -->
     <div
       v-else-if="hasError || !team"
       class="card flex flex-col items-center gap-3 p-12 text-center"
     >
-      <Icon name="lucide:circle-x" size="2.5rem" class="text-text-soft" />
-      <h2 class="text-lg font-semibold text-text-main">Aucune équipe trouvée</h2>
+      <Icon
+        name="lucide:circle-x"
+        size="2.5rem"
+        class="text-text-soft"
+      />
+      <h2 class="text-lg font-semibold text-text-main">
+        Aucune équipe trouvée
+      </h2>
       <p class="text-sm text-text-muted">
         Vérifiez l'orthographe ou essayez un autre nom d'équipe.
       </p>

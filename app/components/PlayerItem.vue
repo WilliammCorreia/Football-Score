@@ -24,10 +24,10 @@ defineProps<{
     </div>
 
     <div class="hidden shrink-0 items-center gap-2 text-xs md:flex">
-      <span class="rounded-md bg-surface-muted px-2 py-1 font-mono tabular font-semibold text-text-main">
+      <span class="tabular rounded-md bg-surface-muted px-2 py-1 font-mono font-semibold text-text-main">
         {{ player.age }} ans
       </span>
-      <span class="rounded-md bg-surface-muted px-2 py-1 font-mono tabular font-semibold text-text-main">
+      <span class="tabular rounded-md bg-surface-muted px-2 py-1 font-mono font-semibold text-text-main">
         {{ player.nationality }}
       </span>
     </div>

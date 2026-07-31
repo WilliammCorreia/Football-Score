@@ -15,14 +15,17 @@ defineProps({
       <h2 class="display text-3xl text-text-main">
         Effectif
       </h2>
-      <span class="font-mono tabular text-sm font-semibold text-text-muted">
+      <span class="tabular font-mono text-sm font-semibold text-text-muted">
         {{ players?.length || 0 }} joueurs
       </span>
     </header>
 
     <div class="max-h-[32rem] overflow-y-auto p-3 md:p-4">
       <ul class="space-y-2">
-        <li v-for="player in players" :key="player.id">
+        <li
+          v-for="player in players"
+          :key="player.id"
+        >
           <PlayerItem :player="player" />
         </li>
       </ul>

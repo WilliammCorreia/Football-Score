@@ -1,4 +1,4 @@
-import { db, schema } from '@nuxthub/db'
+import { db, schema } from '@nuxthub/db';
 import { and, eq } from 'drizzle-orm';
 import { favourites } from 'hub:db:schema';
 

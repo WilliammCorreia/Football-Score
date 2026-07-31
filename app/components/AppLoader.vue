@@ -12,7 +12,7 @@ defineProps<{
       <!-- Arc qui tourne -->
       <div class="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-primary-500" />
     </div>
-    <p class="font-mono tabular text-xs uppercase tracking-eyebrow text-text-soft">
+    <p class="tabular font-mono text-xs uppercase tracking-eyebrow text-text-soft">
       {{ label || 'Chargement…' }}
     </p>
   </div>
